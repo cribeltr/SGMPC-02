@@ -766,6 +766,162 @@ table.data tbody tr.family-row td.sticky-col { background: var(--panel2); }
 }
 .plantilla-toolbar .count { margin-left: auto; color: var(--ink-dim); font-family: var(--mono); font-size: 11px; }
 
+/* SLOTS DISPONIBLES */
+table.data tbody tr.slot-row td { background: rgba(76,201,192,.03); opacity: 0.85; }
+table.data tbody tr.slot-row:hover td { background: rgba(76,201,192,.07); opacity: 1; }
+.slot-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--accent);
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(76,201,192,.12);
+  margin-left: 4px;
+  letter-spacing: 0.5px;
+}
+.slot-dash { color: var(--ink-dim); opacity: 0.4; }
+
+/* DASHBOARD */
+.dash-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.dash-bar select {
+  background: var(--panel2);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+}
+.dash-bar .dash-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.dash-bar .dash-updated {
+  margin-left: auto;
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.dash-body { padding: 16px 18px; overflow-y: auto; flex: 1 1 auto; }
+.dash-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.kpi-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: transform .12s, border-color .12s, box-shadow .12s;
+}
+.kpi-card:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0,0,0,.35);
+}
+.kpi-card .kpi-label {
+  font-size: 10px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.kpi-card .kpi-value {
+  font-size: 34px;
+  font-weight: 700;
+  font-family: var(--mono);
+  line-height: 1;
+}
+.kpi-card .kpi-sub {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+}
+.kpi-card.zero .kpi-value { opacity: 0.5; }
+.kpi-card.programado .kpi-value { color: var(--accent); }
+.kpi-card.ejecutadas .kpi-value { color: var(--ok); }
+.kpi-card.reprogramadas .kpi-value { color: var(--warn); }
+.kpi-card.fs .kpi-value { color: var(--danger); }
+.kpi-card.baja .kpi-value { color: var(--code-baja); }
+.kpi-card.nu .kpi-value { color: var(--code-nu); }
+.kpi-card.no_registradas .kpi-value { color: var(--danger); opacity: 0.75; }
+
+.dash-sanity {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+  margin-top: 14px;
+  padding: 8px 12px;
+  background: var(--panel2);
+  border-radius: 5px;
+  border-left: 3px solid var(--border);
+}
+.dash-sanity.ok { border-left-color: var(--ok); }
+.dash-sanity.fail { border-left-color: var(--danger); color: var(--danger); }
+
+.dash-familia-wrap { margin-top: 22px; }
+.dash-familia-wrap h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 10px 0;
+}
+table.dash-familia {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+  font-family: var(--mono);
+}
+table.dash-familia th, table.dash-familia td {
+  padding: 6px 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+table.dash-familia th { font-weight: 600; color: var(--ink-dim); text-align: right; text-transform: uppercase; font-size: 10px; letter-spacing: 0.4px; }
+table.dash-familia th:first-child, table.dash-familia td:first-child { text-align: left; }
+table.dash-familia td.clickable { cursor: pointer; color: var(--accent); }
+table.dash-familia td.clickable:hover { background: rgba(76,201,192,.08); }
+table.dash-familia tr.total { background: var(--panel2); font-weight: 700; }
+table.dash-familia tr.total td { border-bottom: none; }
+
+/* Banner Registro filtro Dashboard */
+.preset-banner {
+  display: none;
+  padding: 10px 14px;
+  background: rgba(76,201,192,.12);
+  border-left: 3px solid var(--accent);
+  color: var(--ink);
+  font-size: 12px;
+  align-items: center;
+  gap: 10px;
+}
+.preset-banner.show { display: flex; }
+.preset-banner .clear-btn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 3px 9px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.preset-banner .clear-btn:hover { background: var(--accent); color: #0e1116; }
+
 /* helper */
 .flex-row { display: flex; align-items: center; gap: 8px; }
 .muted { color: var(--ink-dim); }
@@ -784,7 +940,8 @@ table.data tbody tr.family-row td.sticky-col { background: var(--panel2); }
     </div>
   </div>
   <nav id="nav">
-    <button data-view="pmp" class="active">PMP_2026</button>
+    <button data-view="dashboard" class="active">Dashboard</button>
+    <button data-view="pmp">PMP_2026</button>
     <button data-view="registro">Registro_MP</button>
     <button data-view="plantilla">Plantilla Mensual</button>
     <button data-view="pendientes">Pendientes</button>
@@ -805,8 +962,22 @@ table.data tbody tr.family-row td.sticky-col { background: var(--panel2); }
 </div>
 
 <main>
+  <!-- VISTA DASHBOARD -->
+  <section class="view active" id="view-dashboard">
+    <div class="dash-bar">
+      <select id="dash-mes"><option value="">— Selecciona mes —</option></select>
+      <span class="dash-title" id="dash-title">Dashboard</span>
+      <span class="dash-updated" id="dash-updated"></span>
+    </div>
+    <div class="dash-body">
+      <div class="dash-kpi-grid" id="dash-kpis"></div>
+      <div id="dash-sanity-wrap"></div>
+      <div class="dash-familia-wrap" id="dash-familia-wrap"></div>
+    </div>
+  </section>
+
   <!-- VISTA PMP -->
-  <section class="view active" id="view-pmp">
+  <section class="view" id="view-pmp">
     <div class="filters" id="filters-pmp">
       <input type="search" id="fpmp-text" placeholder="🔍 Buscar...">
       <select id="fpmp-equipo"><option value="">— Todos los equipos —</option></select>
@@ -832,6 +1003,10 @@ table.data tbody tr.family-row td.sticky-col { background: var(--panel2); }
 
   <!-- VISTA REGISTRO -->
   <section class="view" id="view-registro">
+    <div class="preset-banner" id="reg-preset-banner">
+      <span id="reg-preset-text"></span>
+      <button class="clear-btn" id="reg-preset-clear">✕ Quitar filtro</button>
+    </div>
     <div class="filters" id="filters-reg">
       <input type="search" id="freg-text" placeholder="🔍 Buscar...">
       <select id="freg-equipo"><option value="">— Todos los equipos —</option></select>
@@ -858,7 +1033,10 @@ table.data tbody tr.family-row td.sticky-col { background: var(--panel2); }
     <div class="plantilla-toolbar">
       <select id="pl-mes"><option value="">— Selecciona mes —</option></select>
       <button class="btn primary" id="btn-generar-pl">Generar</button>
-      <button class="btn" id="btn-descargar-pl">⬇ Descargar Plantilla_Asignacion</button>
+      <button class="btn" id="btn-descargar-pl">⬇ Descargar Plantilla</button>
+      <input type="file" id="pl-import-input" accept=".xlsx,.xlsm" style="display:none">
+      <button class="btn" id="btn-importar-pl" title="Sincroniza solo la columna Responsable a las asignaciones del mes. Otros cambios se ignoran.">↑ Importar Plantilla</button>
+      <button class="btn ghost" id="btn-limpiar-pl">Limpiar asignaciones del mes</button>
       <span class="count" id="pl-count"></span>
     </div>
     <div class="table-wrap" id="wrap-pl">
@@ -1093,7 +1271,26 @@ table.data tbody tr.family-row td.sticky-col { background: var(--panel2); }
    CONSTANTES GLOBALES
    --------------------------------------------------------------------------- */
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-const FAMILIAS = ['Monitores','Ventiladores','Desfibriladores','M Anestesia','Incubadoras','M Diálisis'];
+const FAMILIAS = ['Monitores','Ventiladores','Desfibriladores','M Anestesia','Incubadoras','M Diálisis','Otros','Slots disponibles'];
+const FAMILIAS_REALES = ['Monitores','Ventiladores','Desfibriladores','M Anestesia','Incubadoras','M Diálisis'];
+const CATEGORIA_LABELS = {
+  programado: 'Programadas (X / R / RA)',
+  ejecutadas: 'Ejecutadas (Si / Si-RA)',
+  reprogramadas: 'Reprogramadas (C1–C8)',
+  fs: 'Fuera de servicio',
+  baja: 'Baja',
+  nu: 'No ubicable',
+  no_registradas: 'Sin resultado registrado'
+};
+const CATEGORIA_VALORES = {
+  programado:    { campo: 'P', valores: ['X','R','RA'] },
+  ejecutadas:    { campo: 'R', valores: ['Si','Si-RA'] },
+  reprogramadas: { campo: 'R', valores: ['C1','C2','C3','C4','C5','C6','C7','C8'] },
+  fs:            { campo: 'R', valores: ['FS'] },
+  baja:          { campo: 'R', valores: ['Baja'] },
+  nu:            { campo: 'R', valores: ['NU'] },
+  no_registradas:{ campo: 'R', valores: ['__VACIO__'] }
+};
 const RESPONSABLES = [
   'Carlos Bahamondes Seguel',
   'Cristián Beltrán Oviedo',
@@ -1244,11 +1441,12 @@ const state = {
   pendEdit: null,
   _estadoEditInv: null,
   _plantillaMes: null,
-  _plantillaData: []
+  _plantillaData: [],
+  _registroFilterPreset: null
 };
 
-const excelFilters = { pmp: {}, registro: {} };
-const sortState = { pmp: null, registro: null }; // {column, dir}
+const excelFilters = { pmp: {}, registro: {}, plantilla: {} };
+const sortState = { pmp: null, registro: null, plantilla: null };
 
 /* ---------------------------------------------------------------------------
    HELPERS
@@ -1301,10 +1499,22 @@ function fmtSize(b){
 }
 
 function findPMPByInv(inv){
+  if(!inv) return null;
   return state.pmp.find(r => r['N° Inventario'] === inv);
 }
 function findRegByInv(inv){
+  if(!inv) return null;
   return state.registro.find(r => r['N° Inventario'] === inv);
+}
+function findPMPById(id){
+  if(id == null) return null;
+  const k = String(id);
+  return state.pmp.find(r => String(r['ID']) === k);
+}
+function findRegById(id){
+  if(id == null) return null;
+  const k = String(id);
+  return state.registro.find(r => String(r['ID']) === k);
 }
 
 function openModal(id){ $('#'+id).classList.add('show'); }
@@ -1336,8 +1546,17 @@ document.addEventListener('keydown', (ev) => {
 $('#nav').addEventListener('click', (ev) => {
   if(ev.target.tagName !== 'BUTTON') return;
   const v = ev.target.dataset.view;
+  // Click manual de nav: limpiar preset del Registro (cualquier vista que no sea inducida por el Dashboard)
+  if(state._registroFilterPreset && !ev._fromDashboard){
+    state._registroFilterPreset = null;
+    const banner = $('#reg-preset-banner');
+    if(banner) banner.classList.remove('show');
+  }
   $$('#nav button').forEach(b => b.classList.toggle('active', b === ev.target));
   $$('.view').forEach(s => s.classList.toggle('active', s.id === 'view-'+v));
+  if(v === 'dashboard') renderDashboard();
+  if(v === 'registro') renderRegistro();
+  if(v === 'pmp') renderPMP();
 });
 
 /* ---------------------------------------------------------------------------
@@ -1385,25 +1604,33 @@ function validarCabeceraReg(rows){
   return true;
 }
 
+function esSlotDisponible(row){
+  const inv = String(row[PMP_COL_MAP['N° Inventario']] || '').trim();
+  const id  = row[PMP_COL_MAP['ID']];
+  if(id == null || String(id).trim() === '') return false;
+  return inv === '' || inv === '0';
+}
+
 function parsePMP(rows){
   validarCabeceraPMP(rows);
   const equipos = [];
   let warnings = 0;
+  let slots = 0;
   for(let i = PMP_DATA_START_ROW; i < rows.length; i++){
     const row = rows[i];
     if(!row || row.length === 0) continue;
-    const inv = String(row[PMP_COL_MAP['N° Inventario']] || '').trim();
-    if(!inv){
-      const eq = String(row[PMP_COL_MAP['Equipo']] || '').trim();
-      if(!eq) continue;
-      console.warn(`[PMP] Fila ${i+1}: equipo "${eq}" sin N° Inventario, descartado.`);
-      warnings++;
-      continue;
-    }
-    const equipo = { isHeader: false, _rowIdx: i };
+    const id = row[PMP_COL_MAP['ID']];
+    if(id == null || String(id).trim() === '') continue;
+    const isSlot = esSlotDisponible(row);
+    const equipo = { isHeader: false, _rowIdx: i, isSlot };
     for(const campo of Object.keys(PMP_COL_MAP)){
       const val = row[PMP_COL_MAP[campo]];
       equipo[campo] = val != null ? String(val).trim() : '';
+    }
+    if(isSlot){
+      if(equipo['N° Inventario'] === '0') equipo['N° Inventario'] = '';
+      if(equipo['Serie'] === '0') equipo['Serie'] = '';
+      slots++;
     }
     for(const mes of Object.keys(PMP_MESES_COLS)){
       const raw = row[PMP_MESES_COLS[mes]];
@@ -1416,10 +1643,10 @@ function parsePMP(rows){
         equipo[mes] = norm;
       }
     }
-    equipo.family = getFamiliaDeEquipo(equipo['Equipo']);
+    equipo.family = isSlot ? 'Slots disponibles' : getFamiliaDeEquipo(equipo['Equipo']);
     equipos.push(equipo);
   }
-  return { equipos, warnings };
+  return { equipos, warnings, slots };
 }
 
 function parseRegistro(rows){
@@ -1430,17 +1657,15 @@ function parseRegistro(rows){
   for(let i = REG_DATA_START_ROW; i < rows.length; i++){
     const row = rows[i];
     if(!row || row.length === 0) continue;
-    const inv = String(row[REG_COL_MAP['N° Inventario']] || '').trim();
-    if(!inv){
-      const eq = String(row[REG_COL_MAP['Equipo']] || '').trim();
-      if(!eq) continue;
-      continue;
-    }
+    const id = row[REG_COL_MAP['ID']];
+    if(id == null || String(id).trim() === '') continue;
     const reg = { isHeader: false, _rowIdx: i };
     for(const campo of Object.keys(REG_COL_MAP)){
       const val = row[REG_COL_MAP[campo]];
       reg[campo] = val != null ? String(val).trim() : '';
     }
+    if(reg['N° Inventario'] === '0') reg['N° Inventario'] = '';
+    if(reg['Serie'] === '0') reg['Serie'] = '';
     for(const mes of Object.keys(REG_MESES_COLS)){
       const cols = REG_MESES_COLS[mes];
       const rawP = row[cols.P];
@@ -1506,30 +1731,37 @@ async function cargarArchivoXLSM(file){
     regResult = { registros: [], warnings: 0 };
   }
 
-  const pmpByInv = new Map();
-  pmpResult.equipos.forEach(e => pmpByInv.set(e['N° Inventario'], e));
-  const regByInv = new Map();
+  const pmpById = new Map();
+  pmpResult.equipos.forEach(e => pmpById.set(String(e['ID']), e));
+  const regById = new Map();
   let huerfanas = 0;
   regResult.registros.forEach(r => {
-    if(pmpByInv.has(r['N° Inventario'])) regByInv.set(r['N° Inventario'], r);
-    else { huerfanas++; console.warn(`[Vinculación] Registro "${r['N° Inventario']}" sin contraparte en PMP, descartado.`); }
+    const key = String(r['ID']);
+    if(pmpById.has(key)) regById.set(key, r);
+    else { huerfanas++; console.warn(`[Vinculación] Registro con ID "${key}" sin contraparte en PMP, descartado.`); }
   });
 
   let espejos = 0;
   pmpResult.equipos.forEach(eq => {
-    if(!regByInv.has(eq['N° Inventario'])){
-      const espejo = { isHeader: false, family: eq.family };
+    const key = String(eq['ID']);
+    if(!regById.has(key)){
+      const espejo = { isHeader: false, family: eq.family, isSlot: eq.isSlot };
       for(const campo of Object.keys(PMP_COL_MAP)) espejo[campo] = eq[campo];
       for(const mes of Object.keys(PMP_MESES_COLS)){
         espejo[mes + '_P'] = eq[mes] || '';
         espejo[mes + '_R'] = '';
       }
-      regByInv.set(eq['N° Inventario'], espejo);
+      regById.set(key, espejo);
       espejos++;
+    } else {
+      // Propagar isSlot del PMP a su registro
+      const reg = regById.get(key);
+      reg.isSlot = eq.isSlot;
+      if(eq.isSlot) reg.family = 'Slots disponibles';
     }
   });
 
-  const registroOrdenado = pmpResult.equipos.map(eq => regByInv.get(eq['N° Inventario']));
+  const registroOrdenado = pmpResult.equipos.map(eq => regById.get(String(eq['ID'])));
 
   state.pmp = pmpResult.equipos;
   state.registro = registroOrdenado;
@@ -1567,11 +1799,13 @@ function populateSelectors(){
     sel.innerHTML = '<option value="">— Todos los equipos —</option>';
     const porFamilia = {};
     state.pmp.forEach(eq => {
+      if(eq.isSlot) return; // los slots no aparecen en el dropdown (no tienen inventario)
       const f = eq.family || 'Otros';
       if(!porFamilia[f]) porFamilia[f] = [];
       porFamilia[f].push(eq);
     });
-    FAMILIAS.concat(['Otros']).forEach(fam => {
+    FAMILIAS.forEach(fam => {
+      if(fam === 'Slots disponibles') return;
       if(!porFamilia[fam] || porFamilia[fam].length === 0) return;
       const og = document.createElement('optgroup');
       og.label = fam;
@@ -1615,10 +1849,11 @@ function populateSelectors(){
     fe.value = current;
   }
 
-  // Datalist de equipos para inputs autocompletados
+  // Datalist de equipos para inputs autocompletados (sin slots)
   const dl = $('#datalist-equipos');
   dl.innerHTML = '';
   state.pmp.forEach(eq => {
+    if(eq.isSlot) return;
     const opt = document.createElement('option');
     opt.value = eq['N° Inventario'];
     opt.textContent = eq['Equipo'] + (eq['Servicio'] ? ' · ' + eq['Servicio'] : '');
@@ -1651,6 +1886,7 @@ function populateSelectors(){
    ESTADO DEL EQUIPO
    --------------------------------------------------------------------------- */
 function getEstadoEquipo(inv){
+  if(!inv) return '';
   const pmpRow = findPMPByInv(inv);
   if(!pmpRow) return 'Operativo';
   if(pmpRow._estadoOverride) return pmpRow._estadoOverride;
@@ -1714,6 +1950,7 @@ function estadoBadge(inv, estado){
    RENDER PMP_2026
    --------------------------------------------------------------------------- */
 const PMP_COLS = [
+  { key: 'ID',            label: 'ID',            width: 50 },
   { key: 'N° Carpeta',    label: 'N° Carpeta',    width: 80 },
   { key: 'N° Inventario', label: 'N° Inventario', width: 100 },
   { key: 'Equipo',        label: 'Equipo',        width: 180 },
@@ -1725,11 +1962,20 @@ const PMP_COLS = [
   { key: '_estado',       label: 'Estado',        width: 130, computed: true }
 ];
 
+function slotDashCell(){ return '<span class="slot-dash">—</span>'; }
+function idCellHTML(row){
+  if(!row.isSlot) return escapeAttr(row['ID'] || '');
+  return `${escapeAttr(row['ID'] || '')}<span class="slot-badge">SLOT</span>`;
+}
+function cellValueOrDash(row, key){
+  const v = row[key];
+  if(row.isSlot && !v) return slotDashCell();
+  return escapeAttr(v || '');
+}
+
 function ordenarPorFamiliaYRow(rows){
-  // Orden estable: por familia (según FAMILIAS), luego por _rowIdx
   const idx = {};
   FAMILIAS.forEach((f, i) => idx[f] = i);
-  idx['Otros'] = FAMILIAS.length;
   return rows.slice().sort((a, b) => {
     const fa = idx[a.family] ?? 99, fb = idx[b.family] ?? 99;
     if(fa !== fb) return fa - fb;
@@ -1854,13 +2100,21 @@ function renderPMP(){
       tbody.appendChild(fr);
     }
     const trd = el('tr');
+    if(row.isSlot) trd.className = 'slot-row';
+    const rowKey = String(row['ID'] || '');
     cols.forEach(c => {
       let cell;
       if(c.key === '_estado'){
-        const est = getEstadoEquipo(row['N° Inventario']);
-        cell = el('td', { html: estadoBadge(row['N° Inventario'], est) });
+        if(row.isSlot){
+          cell = el('td', { html: slotDashCell() });
+        } else {
+          const est = getEstadoEquipo(row['N° Inventario']);
+          cell = el('td', { html: estadoBadge(row['N° Inventario'], est) });
+        }
+      } else if(c.key === 'ID'){
+        cell = el('td', { html: idCellHTML(row) });
       } else {
-        cell = el('td', null, row[c.key] || '');
+        cell = el('td', { html: cellValueOrDash(row, c.key) });
       }
       trd.appendChild(cell);
     });
@@ -1874,12 +2128,11 @@ function renderPMP(){
       }
       td.addEventListener('click', (ev) => {
         if(ev.target.closest('.cell-code') || ev.target.closest('.cell-empty')){
-          openCellEdit(row['N° Inventario'], m);
+          openCellEditById(rowKey, m);
         }
       });
       trd.appendChild(td);
     });
-    // estado click
     trd.querySelectorAll('.estado-cell').forEach(badge => {
       badge.addEventListener('click', () => openEstadoEdit(row['N° Inventario']));
     });
@@ -1901,6 +2154,7 @@ function renderPMP(){
    RENDER REGISTRO
    --------------------------------------------------------------------------- */
 const REG_COLS = [
+  { key: 'ID',            label: 'ID' },
   { key: 'N° Inventario', label: 'N° Inventario' },
   { key: 'Equipo',        label: 'Equipo' },
   { key: 'Servicio',      label: 'Servicio' },
@@ -1924,12 +2178,58 @@ function passesGlobalFiltersReg(row){
   return true;
 }
 
+function passesPreset(row){
+  const p = state._registroFilterPreset;
+  if(!p) return true;
+  const m = p.mes;
+  if(!m) return true;
+  const field = p.campo === 'P' ? (m + '_P') : (m + '_R');
+  const val = row[field] || '';
+  if(p.categorias && p.categorias.length){
+    if(p.categorias.includes('__VACIO__')){
+      // Considerar vacío sólo cuando el equipo estaba programado
+      const p_val = row[m + '_P'] || '';
+      if(!['X','R','RA'].includes(p_val)) return false;
+      if(val) return false;
+    } else {
+      if(!p.categorias.includes(val)) return false;
+      // Y además debe estar programado (P en X/R/RA) si es campo R
+      if(p.campo === 'R'){
+        const p_val = row[m + '_P'] || '';
+        if(!['X','R','RA'].includes(p_val)) return false;
+      }
+    }
+  }
+  if(p.familia){
+    if(row.family !== p.familia) return false;
+  }
+  return true;
+}
+
 function renderRegistro(){
   const tbl = $('#tbl-reg');
   tbl.innerHTML = '';
   const cols = REG_COLS.slice();
   const monthKeys = [];
   MESES.forEach(m => { monthKeys.push(m + '_P'); monthKeys.push(m + '_R'); });
+
+  // Aplicar preset desde Dashboard
+  const preset = state._registroFilterPreset;
+  const banner = $('#reg-preset-banner');
+  if(preset){
+    if(preset.mes){
+      const fmes = $('#freg-mes');
+      if(fmes && fmes.value !== preset.mes){ fmes.value = preset.mes; }
+    }
+    if(banner){
+      const fam = preset.familia ? ` · ${preset.familia}` : '';
+      const lbl = CATEGORIA_LABELS[preset.categoria] || '';
+      $('#reg-preset-text').textContent = `Filtro desde Dashboard: ${preset.mes}${fam} · ${lbl}`;
+      banner.classList.add('show');
+    }
+  } else if(banner){
+    banner.classList.remove('show');
+  }
 
   // doble cabecera
   const thead = el('thead');
@@ -1962,7 +2262,7 @@ function renderRegistro(){
   } else {
     rows = ordenarPorFamiliaYRow(state.registro);
   }
-  rows = rows.filter(r => passesGlobalFiltersReg(r) && passesExcelFilters(r, 'registro', cols.map(c=>c.key), monthKeys));
+  rows = rows.filter(r => passesGlobalFiltersReg(r) && passesPreset(r) && passesExcelFilters(r, 'registro', cols.map(c=>c.key), monthKeys));
 
   let currentFam = null;
   const totalCols = cols.length + MESES.length * 2;
@@ -1974,13 +2274,21 @@ function renderRegistro(){
       tbody.appendChild(fr);
     }
     const trd = el('tr');
+    if(row.isSlot) trd.className = 'slot-row';
+    const rowKey = String(row['ID'] || '');
     cols.forEach(c => {
       let cell;
       if(c.key === '_estado'){
-        const est = getEstadoEquipo(row['N° Inventario']);
-        cell = el('td', { html: estadoBadge(row['N° Inventario'], est) });
+        if(row.isSlot){
+          cell = el('td', { html: slotDashCell() });
+        } else {
+          const est = getEstadoEquipo(row['N° Inventario']);
+          cell = el('td', { html: estadoBadge(row['N° Inventario'], est) });
+        }
+      } else if(c.key === 'ID'){
+        cell = el('td', { html: idCellHTML(row) });
       } else {
-        cell = el('td', null, row[c.key] || '');
+        cell = el('td', { html: cellValueOrDash(row, c.key) });
       }
       trd.appendChild(cell);
     });
@@ -1998,7 +2306,7 @@ function renderRegistro(){
       else { tdR.innerHTML = `<span class="cell-empty" data-mes="${m}">·</span>`; }
       tdR.addEventListener('click', (ev) => {
         if(ev.target.closest('.cell-code') || ev.target.closest('.cell-empty')){
-          openResultEdit(row['N° Inventario'], m);
+          openResultEditById(rowKey, m);
         }
       });
       trd.appendChild(tdR);
@@ -2201,26 +2509,35 @@ $('#btn-reset-sort-reg').addEventListener('click', () => { sortState.registro = 
 /* ---------------------------------------------------------------------------
    MODAL: EDITAR CELDA PMP
    --------------------------------------------------------------------------- */
-function openCellEdit(inv, mes){
-  const row = findPMPByInv(inv);
+function openCellEditById(id, mes){
+  const row = findPMPById(id);
   if(!row) return;
-  state.cellEdit = { inv, mes };
-  $('#mc-equipo').value = `[${row['N° Inventario']}] — ${row['Equipo']}`;
+  state.cellEdit = { id, mes };
+  const label = row.isSlot
+    ? `[SLOT id=${row['ID']}]`
+    : `[${row['N° Inventario']}] — ${row['Equipo']}`;
+  $('#mc-equipo').value = label;
   $('#mc-mes').value = mes;
   $('#mc-codigo').value = row[mes] || '';
   openModal('modal-cell');
 }
+function openCellEdit(inv, mes){
+  const row = findPMPByInv(inv);
+  if(!row) return;
+  openCellEditById(row['ID'], mes);
+}
 $('#mc-save').addEventListener('click', () => {
-  const { inv, mes } = state.cellEdit || {};
-  if(!inv) return;
-  const pmpRow = findPMPByInv(inv);
-  const regRow = findRegByInv(inv);
+  const { id, mes } = state.cellEdit || {};
+  if(id == null) return;
+  const pmpRow = findPMPById(id);
+  const regRow = findRegById(id);
   const code = $('#mc-codigo').value;
   if(pmpRow) pmpRow[mes] = code;
   if(regRow) regRow[mes + '_P'] = code;
   closeModal('modal-cell');
   renderPMP();
   renderRegistro();
+  if($('#view-dashboard').classList.contains('active')) renderDashboard();
   scheduleAutosave();
   toast('Programación actualizada', 'ok');
 });
@@ -2228,15 +2545,17 @@ $('#mc-save').addEventListener('click', () => {
 /* ---------------------------------------------------------------------------
    MODAL: REGISTRAR RESULTADO
    --------------------------------------------------------------------------- */
-function openResultEdit(inv, mes){
-  const reg = findRegByInv(inv);
+function openResultEditById(id, mes){
+  const reg = findRegById(id);
   if(!reg) return;
-  state.resultEdit = { inv, mes };
-  $('#mr-equipo').value = `[${inv}] — ${reg['Equipo']}`;
+  state.resultEdit = { id, mes };
+  const label = reg.isSlot
+    ? `[SLOT id=${reg['ID']}]`
+    : `[${reg['N° Inventario']}] — ${reg['Equipo']}`;
+  $('#mr-equipo').value = label;
   $('#mr-mes').value = mes;
   $('#mr-p').value = reg[mes + '_P'] || '';
   $('#mr-r').value = reg[mes + '_R'] || '';
-  // mes destino
   const mIdx = MESES.indexOf(mes);
   const reprogSel = $('#mr-reprog');
   reprogSel.innerHTML = '<option value="">— Sin reprogramar aún —</option>';
@@ -2244,6 +2563,11 @@ function openResultEdit(inv, mes){
   if(mIdx >= 0 && mIdx < 10) reprogSel.appendChild(el('option', { value: MESES[mIdx+2] }, MESES[mIdx+2]));
   actualizarMRInfo();
   openModal('modal-result');
+}
+function openResultEdit(inv, mes){
+  const reg = findRegByInv(inv);
+  if(!reg) return;
+  openResultEditById(reg['ID'], mes);
 }
 function actualizarMRInfo(){
   const r = $('#mr-r').value;
@@ -2276,10 +2600,11 @@ function actualizarMRInfo(){
 $('#mr-r').addEventListener('change', actualizarMRInfo);
 
 $('#mr-save').addEventListener('click', () => {
-  const { inv, mes } = state.resultEdit || {};
-  if(!inv) return;
-  const reg = findRegByInv(inv);
-  const pmp = findPMPByInv(inv);
+  const ed = state.resultEdit || {};
+  const mes = ed.mes;
+  const reg = ed.id != null ? findRegById(ed.id) : findRegByInv(ed.inv);
+  const pmp = ed.id != null ? findPMPById(ed.id) : findPMPByInv(ed.inv);
+  if(!reg || !mes) return;
   const code = $('#mr-r').value;
   reg[mes + '_R'] = code;
   if(CAUSALES_REPROG.includes(code)){
@@ -2299,6 +2624,7 @@ $('#mr-save').addEventListener('click', () => {
   closeModal('modal-result');
   renderPMP();
   renderRegistro();
+  if($('#view-dashboard').classList.contains('active')) renderDashboard();
   scheduleAutosave();
   toast('Resultado registrado', 'ok');
 });
@@ -2346,39 +2672,374 @@ $('#mes-quitar').addEventListener('click', () => {
 });
 
 /* ---------------------------------------------------------------------------
+   DASHBOARD
+   --------------------------------------------------------------------------- */
+function calcularDashboard(mes){
+  const empty = { programado:0, ejecutadas:0, reprogramadas:0, fs:0, baja:0, nu:0, no_registradas:0, porFamilia: {} };
+  if(!mes || !state.registro.length) return empty;
+  const stats = { programado:0, ejecutadas:0, reprogramadas:0, fs:0, baja:0, nu:0, no_registradas:0 };
+  const porFamilia = {};
+  const init = () => ({ programado:0, ejecutadas:0, reprogramadas:0, fs:0, baja:0, nu:0, no_registradas:0 });
+  state.registro.forEach(row => {
+    if(row.isHeader) return;
+    const p = row[mes + '_P'] || '';
+    if(!['X','R','RA'].includes(p)) return;
+    const r = row[mes + '_R'] || '';
+    const fam = row.family || 'Otros';
+    if(!porFamilia[fam]) porFamilia[fam] = init();
+    stats.programado++;
+    porFamilia[fam].programado++;
+    if(r === 'Si' || r === 'Si-RA'){ stats.ejecutadas++; porFamilia[fam].ejecutadas++; }
+    else if(/^C[1-8]$/.test(r)){ stats.reprogramadas++; porFamilia[fam].reprogramadas++; }
+    else if(r === 'FS'){ stats.fs++; porFamilia[fam].fs++; }
+    else if(r === 'Baja'){ stats.baja++; porFamilia[fam].baja++; }
+    else if(r === 'NU'){ stats.nu++; porFamilia[fam].nu++; }
+    else { stats.no_registradas++; porFamilia[fam].no_registradas++; }
+  });
+  return Object.assign(stats, { porFamilia });
+}
+
+function navegarARegistroConPreset(mes, categoria, familia){
+  state._registroFilterPreset = {
+    mes,
+    categoria,
+    categorias: CATEGORIA_VALORES[categoria].valores,
+    campo: CATEGORIA_VALORES[categoria].campo,
+    familia: familia || null
+  };
+  // activar vista Registro programáticamente
+  const btn = $('#nav button[data-view="registro"]');
+  const ev = new Event('click', { bubbles: true });
+  ev._fromDashboard = true;
+  // workaround: setear activeness manualmente porque Event() no transmite props no-estándar
+  $$('#nav button').forEach(b => b.classList.toggle('active', b === btn));
+  $$('.view').forEach(s => s.classList.toggle('active', s.id === 'view-registro'));
+  renderRegistro();
+}
+
+function renderDashboard(){
+  // poblar select de mes (idempotente)
+  const sel = $('#dash-mes');
+  if(sel.options.length < 13){
+    sel.innerHTML = '<option value="">— Selecciona mes —</option>';
+    MESES.forEach(m => sel.appendChild(el('option', { value: m }, m)));
+  }
+  if(!sel.value){
+    const now = new Date();
+    const idx = now.getMonth();
+    sel.value = MESES[idx] || 'Ene';
+  }
+  const mes = sel.value;
+  $('#dash-title').textContent = `Dashboard · ${mes} 2026`;
+  const now = new Date();
+  $('#dash-updated').textContent = 'Actualizado: ' + now.toTimeString().slice(0,8);
+
+  const stats = calcularDashboard(mes);
+
+  const tarjetas = [
+    { k: 'programado',     lbl: 'Total programado',  cls: 'programado' },
+    { k: 'ejecutadas',     lbl: 'Ejecutadas',        cls: 'ejecutadas' },
+    { k: 'reprogramadas',  lbl: 'Reprogramadas',     cls: 'reprogramadas' },
+    { k: 'fs',             lbl: 'Fuera de servicio', cls: 'fs' },
+    { k: 'baja',           lbl: 'Baja',              cls: 'baja' },
+    { k: 'nu',             lbl: 'No ubicable',       cls: 'nu' },
+    { k: 'no_registradas', lbl: 'No registradas',    cls: 'no_registradas' }
+  ];
+  const grid = $('#dash-kpis');
+  grid.innerHTML = '';
+  tarjetas.forEach(t => {
+    const val = stats[t.k];
+    const card = el('div', { class: 'kpi-card ' + t.cls + (val === 0 ? ' zero' : '') });
+    card.appendChild(el('div', { class: 'kpi-label' }, t.lbl));
+    card.appendChild(el('div', { class: 'kpi-value' }, String(val)));
+    let sub = '';
+    if(t.k === 'programado'){
+      sub = stats.programado > 0 ? '100%' : '';
+    } else if(stats.programado > 0){
+      sub = (val / stats.programado * 100).toFixed(1) + '%';
+    } else {
+      sub = '—';
+    }
+    card.appendChild(el('div', { class: 'kpi-sub' }, sub));
+    card.addEventListener('click', () => navegarARegistroConPreset(mes, t.k, null));
+    grid.appendChild(card);
+  });
+
+  // sanity check
+  const sw = $('#dash-sanity-wrap');
+  sw.innerHTML = '';
+  const suma = stats.ejecutadas + stats.reprogramadas + stats.fs + stats.baja + stats.nu + stats.no_registradas;
+  const ok = suma === stats.programado;
+  const desglose = `${stats.programado} = ${stats.ejecutadas} + ${stats.reprogramadas} + ${stats.fs} + ${stats.baja} + ${stats.nu} + ${stats.no_registradas}`;
+  const sanity = el('div', { class: 'dash-sanity ' + (ok ? 'ok' : 'fail') },
+    `Total programado = Ejecutadas + Reprogramadas + FS + Baja + NU + No registradas — [${desglose}]  ${ok ? '✓' : '✗'}`
+  );
+  sw.appendChild(sanity);
+
+  // desglose por familia
+  const famWrap = $('#dash-familia-wrap');
+  famWrap.innerHTML = '';
+  if(stats.programado > 0){
+    famWrap.appendChild(el('h4', null, 'Desglose por familia'));
+    const tbl = el('table', { class: 'dash-familia' });
+    const thead = el('thead');
+    const trh = el('tr');
+    ['Familia','Programado','Ejecutadas','Reprog.','FS/Baja/NU','No reg.','% cumplimiento'].forEach(h => trh.appendChild(el('th', null, h)));
+    thead.appendChild(trh);
+    tbl.appendChild(thead);
+    const tbody = el('tbody');
+    let totales = { programado:0, ejecutadas:0, reprogramadas:0, fs:0, baja:0, nu:0, no_registradas:0 };
+    const familiasOrdenadas = Object.keys(stats.porFamilia).sort((a,b) => {
+      const ia = FAMILIAS.indexOf(a); const ib = FAMILIAS.indexOf(b);
+      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+    });
+    familiasOrdenadas.forEach(fam => {
+      const s = stats.porFamilia[fam];
+      const fsTotal = s.fs + s.baja + s.nu;
+      const pct = s.programado > 0 ? (s.ejecutadas / s.programado * 100).toFixed(1) + '%' : '—';
+      const tr = el('tr');
+      tr.appendChild(el('td', null, fam));
+      const tdProg = el('td', { class: 'clickable' }, String(s.programado));
+      tdProg.addEventListener('click', () => navegarARegistroConPreset(mes, 'programado', fam));
+      tr.appendChild(tdProg);
+      const tdEj = el('td', { class: 'clickable' }, String(s.ejecutadas));
+      tdEj.addEventListener('click', () => navegarARegistroConPreset(mes, 'ejecutadas', fam));
+      tr.appendChild(tdEj);
+      const tdRe = el('td', { class: 'clickable' }, String(s.reprogramadas));
+      tdRe.addEventListener('click', () => navegarARegistroConPreset(mes, 'reprogramadas', fam));
+      tr.appendChild(tdRe);
+      tr.appendChild(el('td', null, String(fsTotal)));
+      const tdNR = el('td', { class: 'clickable' }, String(s.no_registradas));
+      tdNR.addEventListener('click', () => navegarARegistroConPreset(mes, 'no_registradas', fam));
+      tr.appendChild(tdNR);
+      tr.appendChild(el('td', null, pct));
+      tbody.appendChild(tr);
+      ['programado','ejecutadas','reprogramadas','fs','baja','nu','no_registradas'].forEach(k => totales[k] += s[k]);
+    });
+    // total
+    const trT = el('tr', { class: 'total' });
+    trT.appendChild(el('td', null, 'TOTAL'));
+    trT.appendChild(el('td', null, String(totales.programado)));
+    trT.appendChild(el('td', null, String(totales.ejecutadas)));
+    trT.appendChild(el('td', null, String(totales.reprogramadas)));
+    trT.appendChild(el('td', null, String(totales.fs + totales.baja + totales.nu)));
+    trT.appendChild(el('td', null, String(totales.no_registradas)));
+    const pctT = totales.programado > 0 ? (totales.ejecutadas / totales.programado * 100).toFixed(1) + '%' : '—';
+    trT.appendChild(el('td', null, pctT));
+    tbody.appendChild(trT);
+    tbl.appendChild(tbody);
+    famWrap.appendChild(tbl);
+  } else {
+    famWrap.appendChild(el('p', { class: 'muted', style: 'font-size:12px' }, 'Sin equipos programados en este mes.'));
+  }
+}
+
+$('#dash-mes').addEventListener('change', renderDashboard);
+
+// banner clear button
+$('#reg-preset-clear').addEventListener('click', () => {
+  state._registroFilterPreset = null;
+  $('#reg-preset-banner').classList.remove('show');
+  renderRegistro();
+});
+
+/* ---------------------------------------------------------------------------
    PLANTILLA MENSUAL
    --------------------------------------------------------------------------- */
+const PLANTILLA_COLS = [
+  'ID','N° Carpeta','N° Inventario','Equipo','Servicio','Unidad','Ubicación',
+  'Marca','Modelo','Serie','Año de Instalación','Frecuencia MP','Estado',
+  'Programado en mes','Responsable'
+];
+
 function generarPlantilla(){
   const mes = $('#pl-mes').value;
   if(!mes){ toast('Selecciona un mes', 'error'); return; }
   const mIdx = MESES.indexOf(mes);
   if(mIdx < 0) return;
 
-  // Excluir equipos con FS/Baja/NU en meses anteriores
+  // Excluir equipos con FS/Baja/NU en meses anteriores (por ID)
   const excluir = new Set();
   state.registro.forEach(reg => {
     for(let i = 0; i < mIdx; i++){
       const v = reg[MESES[i] + '_R'];
       if(v === 'FS' || v === 'Baja' || v === 'NU'){
-        excluir.add(reg['N° Inventario']);
+        excluir.add(String(reg['ID']));
         break;
       }
     }
   });
 
-  // Filtrar equipos programados en el mes
   const data = state.pmp.filter(eq => {
     const c = eq[mes];
-    if(!['X','R','RA'].includes(c)) return false;
-    if(excluir.has(eq['N° Inventario'])) return false;
+    if(!['X','R','RA','PM'].includes(c)) return false;
+    if(excluir.has(String(eq['ID']))) return false;
     return true;
   });
 
   state._plantillaMes = mes;
   state._plantillaData = data;
+  // limpiar filtros excel de plantilla previa
+  excelFilters.plantilla = {};
+  sortState.plantilla = null;
   renderPlantilla();
-  $('#pl-count').textContent = `${data.length} equipos programados`;
+  updatePlantillaCount();
   toast(`Plantilla generada: ${data.length} equipos para ${mes}`, 'ok');
+}
+
+function updatePlantillaCount(){
+  const mes = state._plantillaMes;
+  const data = state._plantillaData || [];
+  const asign = (mes && state.asignacionesMensuales[mes]) || {};
+  const asignados = Object.values(asign).filter(v => v && v !== '').length;
+  $('#pl-count').textContent = data.length ? `${data.length} equipos · ${asignados} asignados` : '';
+}
+
+function passesPlantillaExcelFilters(row){
+  return passesExcelFilters(row, 'plantilla', PLANTILLA_COLS, null);
+}
+
+function buildPlantillaTH(colKey){
+  const th = el('th', { class: 'has-filter' });
+  const filt = excelFilters.plantilla[colKey];
+  if(filt && (filt.quickText || (filt.selectedValues && filt.selectedValues.size > 0))){
+    th.classList.add('filter-active');
+  }
+  const head = el('div', { class: 'th-title' });
+  const title = el('span', { class: 'title-text' }, colKey);
+  const btn = el('button', { class: 'filter-btn' + (filt && (filt.quickText || filt.selectedValues) ? ' active' : ''), title: 'Filtrar / ordenar' }, '▾');
+  btn.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    openExcelPopoverPlantilla(colKey, th);
+  });
+  head.appendChild(title);
+  head.appendChild(btn);
+  th.appendChild(head);
+  const qInput = el('input', {
+    type: 'text', class: 'quick-input', placeholder: '🔍',
+    value: filt ? (filt.quickText || '') : ''
+  });
+  qInput.addEventListener('input', debounce((ev) => {
+    const v = ev.target.value;
+    if(!excelFilters.plantilla[colKey]) excelFilters.plantilla[colKey] = { quickText: '', selectedValues: null, sortDir: null };
+    excelFilters.plantilla[colKey].quickText = v;
+    renderPlantilla();
+  }, 150));
+  th.appendChild(qInput);
+  return th;
+}
+
+function uniqueValuesPlantilla(colKey){
+  const data = state._plantillaData || [];
+  const mes = state._plantillaMes;
+  const counts = new Map();
+  data.forEach(eq => {
+    let val;
+    if(colKey === 'Estado') val = eq.isSlot ? '—' : getEstadoEquipo(eq['N° Inventario']);
+    else if(colKey === 'Programado en mes') val = mes ? (eq[mes] || '') : '';
+    else if(colKey === 'Responsable') val = (mes && state.asignacionesMensuales[mes] && state.asignacionesMensuales[mes][String(eq['ID'])]) || '';
+    else val = eq[colKey];
+    const key = (val == null || String(val).trim() === '') ? '(Vacíos)' : String(val).trim();
+    counts.set(key, (counts.get(key) || 0) + 1);
+  });
+  const arr = Array.from(counts.entries());
+  arr.sort((a, b) => {
+    if(a[0] === '(Vacíos)') return 1;
+    if(b[0] === '(Vacíos)') return -1;
+    return a[0].localeCompare(b[0], 'es');
+  });
+  return arr;
+}
+
+function openExcelPopoverPlantilla(colKey, anchorTh){
+  $$('.excel-popover').forEach(p => p.remove());
+  let filt = excelFilters.plantilla[colKey];
+  if(!filt){ filt = { quickText: '', selectedValues: null, sortDir: null }; excelFilters.plantilla[colKey] = filt; }
+  const values = uniqueValuesPlantilla(colKey);
+  const pop = el('div', { class: 'excel-popover' });
+  const rect = anchorTh.getBoundingClientRect();
+  pop.style.top = (rect.bottom + 4) + 'px';
+  pop.style.left = Math.max(8, rect.left) + 'px';
+
+  const sortRow = el('div', { class: 'sort-row' });
+  const sa = el('button', { class: sortState.plantilla && sortState.plantilla.column === colKey && sortState.plantilla.dir === 'asc' ? 'active' : '' }, '↑ A→Z');
+  const sd = el('button', { class: sortState.plantilla && sortState.plantilla.column === colKey && sortState.plantilla.dir === 'desc' ? 'active' : '' }, '↓ Z→A');
+  sa.addEventListener('click', () => { sortState.plantilla = { column: colKey, dir: 'asc' }; pop.remove(); renderPlantilla(); });
+  sd.addEventListener('click', () => { sortState.plantilla = { column: colKey, dir: 'desc' }; pop.remove(); renderPlantilla(); });
+  sortRow.appendChild(sa); sortRow.appendChild(sd); pop.appendChild(sortRow);
+  pop.appendChild(el('hr'));
+
+  const searchInput = el('input', { type: 'text', class: 'search-input', placeholder: 'Buscar valor...' });
+  pop.appendChild(searchInput);
+  const allClearRow = el('div', { class: 'all-clear' });
+  const btnAll = el('button', null, '(Seleccionar todo)');
+  const btnNone = el('button', null, '(Limpiar)');
+  allClearRow.appendChild(btnAll); allClearRow.appendChild(btnNone); pop.appendChild(allClearRow);
+  const list = el('div', { class: 'values-list' });
+  pop.appendChild(list);
+  let working = filt.selectedValues ? new Set(filt.selectedValues) : new Set(values.map(v => v[0]));
+  function renderList(searchText){
+    list.innerHTML = '';
+    values.forEach(([val, cnt]) => {
+      if(searchText && !val.toLowerCase().includes(searchText.toLowerCase())) return;
+      const lab = el('label');
+      const cb = el('input', { type: 'checkbox' });
+      cb.checked = working.has(val);
+      cb.addEventListener('change', () => { if(cb.checked) working.add(val); else working.delete(val); });
+      const txt = el('span', null, val);
+      const c = el('span', { class: 'count' }, '(' + cnt + ')');
+      lab.appendChild(cb); lab.appendChild(txt); lab.appendChild(c);
+      list.appendChild(lab);
+    });
+  }
+  renderList('');
+  searchInput.addEventListener('input', () => renderList(searchInput.value));
+  btnAll.addEventListener('click', () => { working = new Set(values.map(v => v[0])); renderList(searchInput.value); });
+  btnNone.addEventListener('click', () => { working = new Set(); renderList(searchInput.value); });
+  const footer = el('div', { class: 'footer' });
+  const cancel = el('button', null, 'Cancelar');
+  const accept = el('button', { class: 'primary' }, 'Aceptar');
+  cancel.addEventListener('click', () => pop.remove());
+  accept.addEventListener('click', () => {
+    if(working.size === values.length) filt.selectedValues = null;
+    else filt.selectedValues = working;
+    pop.remove();
+    renderPlantilla();
+  });
+  footer.appendChild(cancel); footer.appendChild(accept); pop.appendChild(footer);
+  document.body.appendChild(pop);
+  setTimeout(() => {
+    const closer = (ev) => { if(!pop.contains(ev.target)){ pop.remove(); document.removeEventListener('click', closer); } };
+    document.addEventListener('click', closer);
+  }, 50);
+}
+
+function applyPlantillaSort(rows){
+  if(!sortState.plantilla) return rows;
+  const { column, dir } = sortState.plantilla;
+  const mes = state._plantillaMes;
+  const out = rows.slice().sort((a, b) => {
+    let va, vb;
+    if(column === 'Estado'){
+      va = a.isSlot ? '—' : getEstadoEquipo(a['N° Inventario']);
+      vb = b.isSlot ? '—' : getEstadoEquipo(b['N° Inventario']);
+    } else if(column === 'Programado en mes'){
+      va = mes ? (a[mes] || '') : '';
+      vb = mes ? (b[mes] || '') : '';
+    } else if(column === 'Responsable'){
+      va = (state.asignacionesMensuales[mes] && state.asignacionesMensuales[mes][String(a['ID'])]) || '';
+      vb = (state.asignacionesMensuales[mes] && state.asignacionesMensuales[mes][String(b['ID'])]) || '';
+    } else {
+      va = String(a[column] ?? '');
+      vb = String(b[column] ?? '');
+    }
+    const na = parseFloat(va), nb = parseFloat(vb);
+    if(!isNaN(na) && !isNaN(nb) && /^-?\d+(\.\d+)?$/.test(va) && /^-?\d+(\.\d+)?$/.test(vb)){
+      return dir === 'asc' ? na - nb : nb - na;
+    }
+    return dir === 'asc' ? va.localeCompare(vb, 'es') : vb.localeCompare(va, 'es');
+  });
+  return out;
 }
 
 function renderPlantilla(){
@@ -2386,55 +3047,83 @@ function renderPlantilla(){
   tbl.innerHTML = '';
   const mes = state._plantillaMes;
   const data = state._plantillaData;
-  if(!mes || !data){
-    return;
-  }
-  const cols = ['N° Carpeta','N° Inventario','Equipo','Servicio','Unidad','Ubicación','Marca','Modelo','Serie','Año','Frecuencia MP','Programado en mes','Responsable'];
-
-  const thead = el('thead');
-  const tr = el('tr');
-  cols.forEach(c => tr.appendChild(el('th', null, c)));
-  thead.appendChild(tr);
-  tbl.appendChild(thead);
-
-  const tbody = el('tbody');
-  const ordenado = ordenarPorFamiliaYRow(data);
-  let currentFam = null;
+  if(!mes || !data) return;
 
   if(!state.asignacionesMensuales[mes]) state.asignacionesMensuales[mes] = {};
 
-  ordenado.forEach(eq => {
-    if(eq.family !== currentFam){
+  // THEAD con filtros tipo Excel
+  const thead = el('thead');
+  const tr = el('tr');
+  PLANTILLA_COLS.forEach(c => tr.appendChild(buildPlantillaTH(c)));
+  thead.appendChild(tr);
+  tbl.appendChild(thead);
+
+  // filtrar + ordenar
+  let rows = data.slice();
+  // adapt passesExcelFilters: requires that the row exposes 'Estado', 'Programado en mes', 'Responsable' as accessible. We patch the comparison for these computed columns inline:
+  rows = rows.filter(eq => {
+    const f = excelFilters.plantilla;
+    for(const col of PLANTILLA_COLS){
+      const flt = f[col];
+      if(!flt) continue;
+      let val;
+      if(col === 'Estado') val = eq.isSlot ? '—' : getEstadoEquipo(eq['N° Inventario']);
+      else if(col === 'Programado en mes') val = eq[mes] || '';
+      else if(col === 'Responsable') val = state.asignacionesMensuales[mes][String(eq['ID'])] || '';
+      else val = eq[col] || '';
+      val = String(val);
+      if(flt.quickText && !val.toLowerCase().includes(flt.quickText.toLowerCase())) return false;
+      if(flt.selectedValues && flt.selectedValues.size > 0){
+        const key = val.trim() || '(Vacíos)';
+        if(!flt.selectedValues.has(key)) return false;
+      }
+    }
+    return true;
+  });
+
+  const hasSort = !!sortState.plantilla;
+  if(hasSort) rows = applyPlantillaSort(rows);
+  else rows = ordenarPorFamiliaYRow(rows);
+
+  const tbody = el('tbody');
+  let currentFam = null;
+  rows.forEach(eq => {
+    if(!hasSort && eq.family !== currentFam){
       currentFam = eq.family;
       const fr = el('tr', { class: 'family-row' });
-      fr.appendChild(el('td', { colspan: cols.length }, currentFam));
+      fr.appendChild(el('td', { colspan: PLANTILLA_COLS.length }, currentFam));
       tbody.appendChild(fr);
     }
     const trd = el('tr');
-    trd.appendChild(el('td', null, eq['N° Carpeta'] || ''));
-    trd.appendChild(el('td', null, eq['N° Inventario'] || ''));
-    trd.appendChild(el('td', null, eq['Equipo'] || ''));
-    trd.appendChild(el('td', null, eq['Servicio'] || ''));
-    trd.appendChild(el('td', null, eq['Unidad'] || ''));
-    trd.appendChild(el('td', null, eq['Ubicación'] || ''));
-    trd.appendChild(el('td', null, eq['Marca'] || ''));
-    trd.appendChild(el('td', null, eq['Modelo'] || ''));
-    trd.appendChild(el('td', null, eq['Serie'] || ''));
-    trd.appendChild(el('td', null, eq['Año de Instalación'] || ''));
-    trd.appendChild(el('td', null, eq['Frecuencia MP'] || ''));
+    if(eq.isSlot) trd.className = 'slot-row';
+    // ID
+    trd.appendChild(el('td', { html: idCellHTML(eq) }));
+    // resto de columnas base
+    ['N° Carpeta','N° Inventario','Equipo','Servicio','Unidad','Ubicación','Marca','Modelo','Serie','Año de Instalación','Frecuencia MP'].forEach(c => {
+      trd.appendChild(el('td', { html: cellValueOrDash(eq, c) }));
+    });
+    // Estado
+    if(eq.isSlot){
+      trd.appendChild(el('td', { html: slotDashCell() }));
+    } else {
+      trd.appendChild(el('td', { html: estadoBadge(eq['N° Inventario'], getEstadoEquipo(eq['N° Inventario'])) }));
+    }
+    // Programado en mes
     const codeTd = el('td');
     const c = eq[mes];
-    codeTd.innerHTML = `<span class="cell-code ${c}">${c}</span>`;
+    if(c) codeTd.innerHTML = `<span class="cell-code ${c}">${c}</span>`;
     trd.appendChild(codeTd);
-
+    // Responsable
     const respTd = el('td');
     const sel = el('select');
     sel.appendChild(el('option', { value: '' }, '— Asignar —'));
     RESPONSABLES.forEach(r => sel.appendChild(el('option', { value: r }, r)));
-    const prev = state.asignacionesMensuales[mes][eq['N° Inventario']];
+    const idKey = String(eq['ID']);
+    const prev = state.asignacionesMensuales[mes][idKey];
     if(prev) sel.value = prev;
     sel.addEventListener('change', () => {
-      state.asignacionesMensuales[mes][eq['N° Inventario']] = sel.value;
+      state.asignacionesMensuales[mes][idKey] = sel.value;
+      updatePlantillaCount();
       scheduleAutosave();
     });
     respTd.appendChild(sel);
@@ -2442,31 +3131,169 @@ function renderPlantilla(){
     tbody.appendChild(trd);
   });
   tbl.appendChild(tbody);
+  updatePlantillaCount();
 }
 
 $('#btn-generar-pl').addEventListener('click', generarPlantilla);
+
 $('#btn-descargar-pl').addEventListener('click', () => {
   const mes = state._plantillaMes;
   const data = state._plantillaData;
   if(!mes || !data || data.length === 0){ toast('Genera la plantilla primero', 'error'); return; }
-  const rows = [['N° Carpeta','N° Inventario','Equipo','Servicio','Unidad','Ubicación','Marca','Modelo','Serie','Año','Frecuencia MP','Programado en mes','Responsable']];
+  const rows = [PLANTILLA_COLS.slice()];
   const ordenado = ordenarPorFamiliaYRow(data);
   ordenado.forEach(eq => {
+    const estado = eq.isSlot ? '' : getEstadoEquipo(eq['N° Inventario']);
+    const resp = (state.asignacionesMensuales[mes] && state.asignacionesMensuales[mes][String(eq['ID'])]) || '';
     rows.push([
-      eq['N° Carpeta'] || '', eq['N° Inventario'] || '', eq['Equipo'] || '',
-      eq['Servicio'] || '', eq['Unidad'] || '', eq['Ubicación'] || '',
-      eq['Marca'] || '', eq['Modelo'] || '', eq['Serie'] || '',
-      eq['Año de Instalación'] || '', eq['Frecuencia MP'] || '',
+      eq['ID'] || '',
+      eq['N° Carpeta'] || '',
+      eq['N° Inventario'] || '',
+      eq['Equipo'] || '',
+      eq['Servicio'] || '',
+      eq['Unidad'] || '',
+      eq['Ubicación'] || '',
+      eq['Marca'] || '',
+      eq['Modelo'] || '',
+      eq['Serie'] || '',
+      eq['Año de Instalación'] || '',
+      eq['Frecuencia MP'] || '',
+      estado,
       eq[mes] || '',
-      (state.asignacionesMensuales[mes] && state.asignacionesMensuales[mes][eq['N° Inventario']]) || ''
+      resp
     ]);
   });
   const ws = XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols'] = [{wch:11},{wch:13},{wch:30},{wch:22},{wch:18},{wch:22},{wch:14},{wch:18},{wch:16},{wch:7},{wch:14},{wch:12},{wch:26}];
+  ws['!cols'] = [{wch:5},{wch:11},{wch:13},{wch:30},{wch:22},{wch:18},{wch:22},{wch:14},{wch:18},{wch:16},{wch:9},{wch:14},{wch:18},{wch:14},{wch:28}];
+  // Data validation tipo lista para la columna Responsable (col O = index 14)
+  const lastRow = rows.length;
+  const respColLetter = 'O';
+  ws['!dataValidation'] = [{
+    sqref: `${respColLetter}2:${respColLetter}${lastRow}`,
+    type: 'list',
+    allowBlank: true,
+    showErrorMessage: true,
+    errorTitle: 'Valor inválido',
+    error: 'Seleccione un técnico de la lista oficial.',
+    formula1: '"' + RESPONSABLES.join(',') + '"'
+  }];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, `Asignacion_${mes}`);
+
+  // Hoja _TECNICOS (fallback si data validation no aplica)
+  const tecnicosRows = [['Técnicos oficiales (lista)']];
+  RESPONSABLES.forEach(r => tecnicosRows.push([r]));
+  const wsTec = XLSX.utils.aoa_to_sheet(tecnicosRows);
+  wsTec['!cols'] = [{wch:30}];
+  XLSX.utils.book_append_sheet(wb, wsTec, '_TECNICOS');
+
+  // Hoja _meta
+  const meta = [
+    ['campo','valor'],
+    ['mes', mes],
+    ['fecha_descarga', new Date().toISOString()],
+    ['generadoPor', 'SGMP 2026']
+  ];
+  const wsMeta = XLSX.utils.aoa_to_sheet(meta);
+  XLSX.utils.book_append_sheet(wb, wsMeta, '_meta');
+
   XLSX.writeFile(wb, `Plantilla_Asignacion_${mes}_2026.xlsx`);
-  toast('Plantilla descargada', 'ok');
+  const asignados = Object.values(state.asignacionesMensuales[mes] || {}).filter(v => v).length;
+  toast(`Plantilla del mes ${mes} descargada · ${data.length} equipos · ${asignados} ya asignados`, 'ok');
+});
+
+$('#btn-importar-pl').addEventListener('click', () => $('#pl-import-input').click());
+
+$('#pl-import-input').addEventListener('change', async (ev) => {
+  const file = ev.target.files && ev.target.files[0];
+  if(!file) return;
+  ev.target.value = '';
+  let wb;
+  try {
+    const buf = await file.arrayBuffer();
+    wb = XLSX.read(buf, { type: 'array' });
+  } catch(err){
+    toast('Error abriendo archivo: ' + err.message, 'error');
+    return;
+  }
+  // detectar mes desde hoja _meta
+  let mesPlanilla = null;
+  if(wb.SheetNames.includes('_meta')){
+    const metaRows = XLSX.utils.sheet_to_json(wb.Sheets['_meta'], { header: 1, defval: '' });
+    metaRows.forEach(r => { if(r[0] === 'mes') mesPlanilla = String(r[1] || '').trim(); });
+  }
+  const mesActivo = $('#pl-mes').value || state._plantillaMes;
+  if(mesPlanilla && mesActivo && mesPlanilla !== mesActivo){
+    if(!confirm(`La plantilla es del mes ${mesPlanilla} pero estás importando para el mes ${mesActivo}. ¿Continuar?`)){
+      return;
+    }
+  }
+  const mesUsar = mesPlanilla || mesActivo;
+  if(!mesUsar){
+    toast('No se pudo determinar el mes. Selecciona uno antes de importar.', 'error');
+    return;
+  }
+  // buscar hoja principal (la primera que tenga "Asignacion" en el nombre, o la primera no-meta)
+  const sheetName = wb.SheetNames.find(n => /^Asignacion/i.test(n)) || wb.SheetNames.find(n => !n.startsWith('_')) || wb.SheetNames[0];
+  const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header: 1, defval: '' });
+  if(rows.length < 2){ toast('Hoja vacía', 'error'); return; }
+  const header = rows[0].map(s => String(s || '').trim());
+  const idIdx = header.indexOf('ID');
+  const respIdx = header.indexOf('Responsable');
+  if(idIdx === -1 || respIdx === -1){
+    toast('La hoja no tiene columnas ID y Responsable.', 'error');
+    return;
+  }
+  if(!state.asignacionesMensuales[mesUsar]) state.asignacionesMensuales[mesUsar] = {};
+  let importadas = 0, omitidas = 0, nombresInvalidos = 0;
+  for(let i = 1; i < rows.length; i++){
+    const r = rows[i];
+    const id = String(r[idIdx] || '').trim();
+    const resp = String(r[respIdx] || '').trim();
+    if(!id) continue;
+    if(!resp || resp === '— Asignar —') continue;
+    if(!RESPONSABLES.includes(resp)){
+      console.warn(`[Importar Plantilla] Fila ${i+1}: responsable "${resp}" no está en la lista oficial. Omitido.`);
+      nombresInvalidos++; omitidas++;
+      continue;
+    }
+    const eq = findPMPById(id);
+    if(!eq){
+      console.warn(`[Importar Plantilla] Fila ${i+1}: ID ${id} no encontrado en el dataset. Omitido.`);
+      omitidas++;
+      continue;
+    }
+    state.asignacionesMensuales[mesUsar][id] = resp;
+    importadas++;
+  }
+  $('#pl-mes').value = mesUsar;
+  if(!state._plantillaMes || state._plantillaMes !== mesUsar){
+    // Forzar regenerar para mostrar cambios consistentes
+    state._plantillaMes = mesUsar;
+    if(!state._plantillaData || state._plantillaData.length === 0) generarPlantilla();
+  }
+  renderPlantilla();
+  scheduleAutosave();
+  const extra = nombresInvalidos > 0 ? ` · ${nombresInvalidos} nombre(s) no oficial(es)` : '';
+  toast(`Importadas ${importadas} asignaciones · ${omitidas} omitidas${extra}`, importadas > 0 ? 'ok' : 'error');
+});
+
+$('#btn-limpiar-pl').addEventListener('click', () => {
+  const mes = state._plantillaMes;
+  if(!mes){ toast('Genera primero la plantilla', 'error'); return; }
+  if(!confirm(`¿Limpiar TODAS las asignaciones del mes ${mes}?`)) return;
+  state.asignacionesMensuales[mes] = {};
+  renderPlantilla();
+  scheduleAutosave();
+  toast('Asignaciones limpiadas', 'ok');
+});
+
+// Sync ambos selectores de mes (toolbar dash + plantilla)
+$('#pl-mes').addEventListener('change', () => {
+  state._plantillaMes = $('#pl-mes').value || null;
+  if(state._plantillaMes && state._plantillaData && state._plantillaData.length){
+    // sólo re-render si ya hay datos generados para ese mes
+  }
 });
 
 /* ---------------------------------------------------------------------------
@@ -2961,7 +3788,7 @@ function exportXLSX(){
       pmpRows.push(sep);
     }
     const r = pmpCols.map(c => {
-      if(c === 'Estado actual') return getEstadoEquipo(eq['N° Inventario']);
+      if(c === 'Estado actual') return eq.isSlot ? '' : getEstadoEquipo(eq['N° Inventario']);
       if(c === 'Override manual') return eq._estadoOverride ? `Sí (${eq._estadoOverrideFecha || ''})` : '';
       if(MESES.includes(c)) return eq[c] || '';
       return eq[c] || '';
@@ -3155,6 +3982,7 @@ $('#fileInput').addEventListener('change', async (ev) => {
    RENDER ALL
    --------------------------------------------------------------------------- */
 function renderAll(){
+  renderDashboard();
   renderPMP();
   renderRegistro();
   renderPlantilla();
