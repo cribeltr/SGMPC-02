@@ -1,0 +1,3174 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SGMP 2026 — Hospital Hernán Henríquez Aravena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root {
+  --bg: #0e1116;
+  --panel: #161b22;
+  --panel2: #1c232d;
+  --border: #2a3441;
+  --ink: #e6edf3;
+  --ink-dim: #8b96a5;
+  --accent: #4cc9c0;
+  --accent-2: #f0a500;
+  --danger: #e5484d;
+  --ok: #3fb950;
+  --warn: #d29922;
+  --info: #58a6ff;
+  --code-x: #f0a500;
+  --code-r: #58a6ff;
+  --code-ra: #bc8cff;
+  --code-pm: #3fb950;
+  --code-fs: #e5484d;
+  --code-baja: #7d8590;
+  --code-nu: #d29922;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--panel2); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border); }
+
+/* HEADER */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  flex: 0 0 auto;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--accent), #2a8a83);
+  display: grid; place-items: center;
+  font-weight: 700;
+  color: #0e1116;
+  font-size: 13px;
+  font-family: var(--mono);
+}
+.brand-text h1 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.3px; }
+.brand-text small { color: var(--ink-dim); font-size: 11px; }
+nav { display: flex; gap: 2px; }
+nav button {
+  background: transparent;
+  color: var(--ink-dim);
+  border: none;
+  padding: 8px 14px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+nav button:hover { color: var(--ink); }
+nav button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* TOOLBAR */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: var(--panel2);
+  border-bottom: 1px solid var(--border);
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+}
+.toolbar .status {
+  margin-left: auto;
+  color: var(--ink-dim);
+  font-size: 11px;
+  font-family: var(--mono);
+}
+button.btn, .btn {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-family: var(--sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+button.btn:hover, .btn:hover { background: var(--panel2); border-color: var(--accent); }
+button.btn.primary, .btn.primary {
+  background: var(--accent);
+  color: #0e1116;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+button.btn.primary:hover, .btn.primary:hover { background: #5dd6cd; }
+button.btn.danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: var(--danger);
+}
+button.btn.danger:hover { background: rgba(229,72,77,.1); }
+button.btn.ghost { background: transparent; border-color: transparent; color: var(--ink-dim); }
+button.btn.ghost:hover { color: var(--accent); }
+
+/* MAIN */
+main {
+  flex: 1 1 auto;
+  overflow: hidden;
+  position: relative;
+}
+.view {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+}
+.view.active { display: flex; }
+
+/* FILTROS GLOBALES */
+.filters {
+  display: flex;
+  gap: 8px;
+  padding: 8px 18px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+}
+.filters input[type="text"],
+.filters input[type="search"],
+.filters select {
+  background: var(--panel2);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-family: var(--sans);
+  font-size: 12px;
+  min-width: 140px;
+}
+.filters input[type="text"]:focus,
+.filters select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.filters .legend {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+  align-items: center;
+  font-size: 11px;
+  color: var(--ink-dim);
+  flex-wrap: wrap;
+}
+.legend .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 10px;
+}
+.legend .chip.x { background: rgba(240,165,0,.18); color: var(--code-x); }
+.legend .chip.r { background: rgba(88,166,255,.18); color: var(--code-r); }
+.legend .chip.ra { background: rgba(188,140,255,.18); color: var(--code-ra); }
+.legend .chip.pm { background: rgba(63,185,80,.18); color: var(--code-pm); }
+.legend .chip.ovr { color: var(--accent-2); }
+
+.sort-info {
+  display: none;
+  padding: 6px 18px;
+  background: var(--panel2);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--ink-dim);
+}
+.sort-info.show { display: flex; align-items: center; gap: 10px; }
+.sort-info button { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 11px; text-decoration: underline; padding: 0; }
+
+/* TABLAS */
+.table-wrap {
+  flex: 1 1 auto;
+  overflow: auto;
+  background: var(--bg);
+}
+table.data {
+  border-collapse: collapse;
+  font-size: 11px;
+  width: max-content;
+  min-width: 100%;
+  font-family: var(--mono);
+}
+table.data thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--panel);
+}
+table.data th {
+  padding: 6px 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+  background: var(--panel);
+  color: var(--ink);
+  vertical-align: top;
+  position: relative;
+}
+table.data th.has-filter {
+  padding-bottom: 4px;
+}
+table.data th .th-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+table.data th .th-title .title-text {
+  font-weight: 600;
+  font-family: var(--sans);
+  font-size: 11px;
+}
+table.data th .filter-btn {
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0;
+  line-height: 1;
+}
+table.data th .filter-btn:hover { color: var(--accent); }
+table.data th .filter-btn.active { color: var(--accent); }
+table.data th.filter-active { border-bottom: 2px solid var(--accent); }
+table.data th .quick-input {
+  margin-top: 4px;
+  width: 100%;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+table.data th .quick-input:focus { outline: none; border-color: var(--accent); }
+
+table.data td {
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+  font-family: var(--mono);
+}
+table.data tbody tr:hover td { background: rgba(76,201,192,.05); }
+table.data tbody tr.family-row td {
+  background: var(--panel2);
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 10px;
+  text-align: left;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--sans);
+}
+table.data tbody tr.family-row:hover td { background: var(--panel2); }
+
+/* sticky first columns */
+table.data th.sticky-col, table.data td.sticky-col {
+  position: sticky;
+  background: var(--panel);
+  z-index: 5;
+}
+table.data tbody td.sticky-col { background: var(--bg); }
+table.data tbody tr:hover td.sticky-col { background: rgba(76,201,192,.05); }
+table.data tbody tr.family-row td.sticky-col { background: var(--panel2); }
+
+/* códigos en celdas */
+.cell-code {
+  display: inline-block;
+  min-width: 22px;
+  padding: 2px 6px;
+  text-align: center;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 10px;
+  cursor: pointer;
+}
+.cell-code.X { background: rgba(240,165,0,.2); color: var(--code-x); }
+.cell-code.R { background: rgba(88,166,255,.2); color: var(--code-r); }
+.cell-code.RA { background: rgba(188,140,255,.2); color: var(--code-ra); }
+.cell-code.PM { background: rgba(63,185,80,.2); color: var(--code-pm); }
+.cell-code.Si { background: rgba(63,185,80,.2); color: var(--ok); }
+.cell-code.Si-RA { background: rgba(63,185,80,.2); color: var(--ok); }
+.cell-code.C1, .cell-code.C2, .cell-code.C3, .cell-code.C4,
+.cell-code.C5, .cell-code.C6, .cell-code.C7, .cell-code.C8 {
+  background: rgba(229,72,77,.15); color: var(--danger);
+}
+.cell-code.FS { background: rgba(229,72,77,.3); color: #fff; }
+.cell-code.Baja { background: rgba(125,133,144,.2); color: var(--code-baja); }
+.cell-code.NU { background: rgba(210,153,34,.2); color: var(--code-nu); }
+.cell-empty {
+  display: inline-block;
+  width: 22px;
+  height: 16px;
+  cursor: pointer;
+  border-radius: 3px;
+  opacity: 0.3;
+}
+.cell-empty:hover { background: var(--panel2); opacity: 1; }
+
+/* Estado badges */
+.estado-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 10px;
+  font-family: var(--mono);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.estado-cell:hover { border-color: var(--accent); }
+.estado-Operativo { background: rgba(63,185,80,.15); color: var(--ok); }
+.estado-No.operativo, .estado-NoOperativo { background: rgba(229,72,77,.15); color: var(--danger); }
+.estado-En.servicio.técnico, .estado-EnServicioTecnico { background: rgba(88,166,255,.15); color: var(--info); }
+.estado-En.préstamo, .estado-EnPrestamo { background: rgba(188,140,255,.15); color: var(--code-ra); }
+.estado-Fuera.de.servicio, .estado-FueraDeServicio { background: rgba(229,72,77,.3); color: #fff; }
+.estado-Baja { background: rgba(125,133,144,.2); color: var(--code-baja); }
+.ovr-dot { color: var(--accent-2); font-size: 10px; }
+
+/* Excel-style filter popover */
+.excel-popover {
+  position: fixed;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.6);
+  z-index: 200;
+  width: 240px;
+  padding: 8px;
+  font-family: var(--sans);
+  font-size: 11px;
+}
+.excel-popover .sort-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.excel-popover .sort-row button {
+  flex: 1;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  border-radius: 3px;
+  padding: 4px 6px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.excel-popover .sort-row button:hover { background: var(--bg); }
+.excel-popover .sort-row button.active { background: var(--accent); color: #0e1116; border-color: var(--accent); }
+.excel-popover hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 6px 0;
+}
+.excel-popover .search-input {
+  width: 100%;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 4px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+.excel-popover .all-clear {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.excel-popover .all-clear button {
+  flex: 1;
+  background: none;
+  border: 1px dashed var(--border);
+  color: var(--ink-dim);
+  padding: 3px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 10px;
+}
+.excel-popover .all-clear button:hover { color: var(--accent); border-color: var(--accent); }
+.excel-popover .values-list {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  padding: 4px;
+  margin-bottom: 6px;
+}
+.excel-popover .values-list label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 4px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10px;
+  border-radius: 2px;
+}
+.excel-popover .values-list label:hover { background: var(--panel2); }
+.excel-popover .values-list input[type="checkbox"] { margin: 0; }
+.excel-popover .values-list .count { color: var(--ink-dim); margin-left: auto; font-size: 9px; }
+.excel-popover .footer {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+.excel-popover .footer button {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.excel-popover .footer button.primary {
+  background: var(--accent);
+  color: #0e1116;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+/* MODAL */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 1000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 40px 20px;
+}
+.modal-bg.show { display: flex; }
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 640px;
+  max-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.modal.lg { max-width: 820px; }
+.modal .modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.modal .modal-head h3 { margin: 0; font-size: 14px; font-weight: 600; }
+.modal .modal-head .x {
+  background: none; border: none; color: var(--ink-dim);
+  font-size: 18px; cursor: pointer; padding: 0; width: 24px; height: 24px;
+  border-radius: 4px;
+}
+.modal .modal-head .x:hover { color: var(--ink); background: var(--panel2); }
+.modal .modal-body {
+  padding: 16px 18px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+.modal .modal-foot {
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+.modal .modal-foot .left-spacer { margin-right: auto; }
+.modal .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.modal label {
+  display: block;
+  margin-bottom: 12px;
+}
+.modal label > span {
+  display: block;
+  color: var(--ink-dim);
+  font-size: 11px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.modal input[type="text"],
+.modal input[type="date"],
+.modal input[type="number"],
+.modal select,
+.modal textarea {
+  width: 100%;
+  background: var(--panel2);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+}
+.modal input:focus, .modal select:focus, .modal textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.modal textarea { min-height: 70px; resize: vertical; }
+.modal input[readonly] { background: var(--bg); color: var(--ink-dim); }
+.modal .section-divider {
+  border-top: 1px solid var(--border);
+  margin: 16px 0 14px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding-top: 12px;
+  letter-spacing: 0.5px;
+}
+.modal .info-banner {
+  background: var(--panel2);
+  border-left: 3px solid var(--info);
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--ink-dim);
+  border-radius: 3px;
+  margin-top: 12px;
+}
+
+/* Timeline */
+.timeline { margin-bottom: 12px; }
+.timeline-item {
+  display: flex;
+  gap: 8px;
+  padding: 6px 8px;
+  background: var(--panel2);
+  border-radius: 4px;
+  margin-bottom: 5px;
+  font-size: 11px;
+  align-items: flex-start;
+}
+.timeline-item .ti-date { color: var(--ink-dim); font-family: var(--mono); flex: 0 0 80px; }
+.timeline-item .ti-author { color: var(--accent); font-weight: 600; flex: 0 0 140px; }
+.timeline-item .ti-text { flex: 1; }
+.timeline-item .ti-del {
+  background: none; border: none; color: var(--ink-dim); cursor: pointer;
+  font-size: 14px; padding: 0; line-height: 1;
+}
+.timeline-item .ti-del:hover { color: var(--danger); }
+.timeline-add { display: flex; gap: 6px; }
+.timeline-add input { flex: 1; }
+.timeline-add select { flex: 0 0 180px; }
+
+/* Adjuntos */
+.attach-area {
+  border: 2px dashed var(--border);
+  border-radius: 5px;
+  padding: 14px;
+  text-align: center;
+  color: var(--ink-dim);
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.attach-area:hover { border-color: var(--accent); color: var(--accent); }
+.attach-list { display: flex; flex-direction: column; gap: 4px; }
+.attach-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel2);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.attach-item .a-name { flex: 1; color: var(--accent); cursor: pointer; text-decoration: none; }
+.attach-item .a-name:hover { text-decoration: underline; }
+.attach-item .a-size { color: var(--ink-dim); font-family: var(--mono); font-size: 10px; }
+.attach-item .a-del { background: none; border: none; color: var(--ink-dim); cursor: pointer; font-size: 14px; }
+.attach-item .a-del:hover { color: var(--danger); }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--ink-dim);
+  border-radius: 5px;
+  padding: 10px 14px;
+  font-size: 12px;
+  z-index: 2000;
+  max-width: 400px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  transform: translateY(10px);
+  box-shadow: 0 6px 24px rgba(0,0,0,.6);
+}
+.toast.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.toast.ok { border-left-color: var(--ok); }
+.toast.error { border-left-color: var(--danger); }
+
+/* Pendientes - stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--bg);
+}
+.stat-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.stat-card .lbl {
+  font-size: 10px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+}
+.stat-card .val {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: var(--mono);
+}
+.stat-card.info .val { color: var(--info); }
+.stat-card.danger .val { color: var(--danger); }
+.stat-card.warn .val { color: var(--warn); }
+.stat-card.ok .val { color: var(--ok); }
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.badge.prio-Alta { background: rgba(229,72,77,.15); color: var(--danger); }
+.badge.prio-Media { background: rgba(210,153,34,.15); color: var(--warn); }
+.badge.prio-Baja { background: rgba(125,133,144,.2); color: var(--ink-dim); }
+.badge.st-Abierto { background: rgba(229,72,77,.15); color: var(--danger); }
+.badge.st-Engestion, .badge.st-En-gestion { background: rgba(240,165,0,.15); color: var(--accent-2); }
+.badge.st-Enespera, .badge.st-En-espera { background: rgba(88,166,255,.15); color: var(--info); }
+.badge.st-Cerrado { background: rgba(63,185,80,.15); color: var(--ok); }
+.badge.t-tipo { background: var(--panel2); color: var(--ink-dim); }
+
+/* Eventos cards */
+.event-list { padding: 12px 18px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; flex: 1 1 auto; }
+.event-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 5px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.event-card .ev-type {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+.ev-type.MP { background: rgba(63,185,80,.18); color: var(--ok); }
+.ev-type.ST { background: rgba(88,166,255,.18); color: var(--info); }
+.ev-type.SOL { background: rgba(210,153,34,.18); color: var(--warn); }
+.ev-type.REC { background: rgba(188,140,255,.18); color: var(--code-ra); }
+.ev-type.REP { background: rgba(229,72,77,.18); color: var(--danger); }
+.event-card .ev-inv { font-family: var(--mono); color: var(--accent); font-size: 11px; min-width: 80px; }
+.event-card .ev-desc { flex: 1; font-size: 12px; color: var(--ink); }
+.event-card .ev-desc small { color: var(--ink-dim); margin-left: 6px; }
+.event-card .ev-date { color: var(--ink-dim); font-family: var(--mono); font-size: 11px; }
+.event-card .ev-del { background: none; border: none; color: var(--ink-dim); cursor: pointer; font-size: 16px; }
+.event-card .ev-del:hover { color: var(--danger); }
+
+/* Pendientes table */
+.pend-row { cursor: pointer; }
+.pend-row:hover td { background: rgba(76,201,192,.07) !important; }
+.pend-title { color: var(--ink); font-weight: 600; font-family: var(--sans); }
+.pend-equip { color: var(--ink-dim); font-size: 10px; font-family: var(--mono); margin-top: 2px; }
+.fecha-vencida { color: var(--danger); font-weight: 700; }
+.fecha-pronto { color: var(--warn); font-weight: 700; }
+.fecha-ok { color: var(--ink-dim); }
+
+/* Plantilla mensual */
+.plantilla-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.plantilla-toolbar .count { margin-left: auto; color: var(--ink-dim); font-family: var(--mono); font-size: 11px; }
+
+/* helper */
+.flex-row { display: flex; align-items: center; gap: 8px; }
+.muted { color: var(--ink-dim); }
+.mono { font-family: var(--mono); }
+.spacer { flex: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">S</div>
+    <div class="brand-text">
+      <h1>SGMP 2026</h1>
+      <small>Hospital Hernán Henríquez Aravena · Servicio de Equipos Clínicos</small>
+    </div>
+  </div>
+  <nav id="nav">
+    <button data-view="pmp" class="active">PMP_2026</button>
+    <button data-view="registro">Registro_MP</button>
+    <button data-view="plantilla">Plantilla Mensual</button>
+    <button data-view="pendientes">Pendientes</button>
+    <button data-view="eventos">Eventos</button>
+  </nav>
+</header>
+
+<div class="toolbar">
+  <input type="file" id="fileInput" accept=".xlsm,.xlsx" style="display:none">
+  <button class="btn" id="btnCargar">📂 Cargar XLSM</button>
+  <button class="btn primary" id="btnExportar">💾 Exportar XLSX</button>
+  <input type="file" id="sessionInput" accept=".json" style="display:none">
+  <button class="btn" id="btnCargarSesion">↑ Cargar sesión</button>
+  <button class="btn" id="btnGuardarSesion">↓ Guardar sesión</button>
+  <button class="btn" id="btnNuevoEvento">+ Evento</button>
+  <button class="btn" id="btnNuevoPendiente">+ Pendiente</button>
+  <span class="status" id="status">Sin archivo cargado</span>
+</div>
+
+<main>
+  <!-- VISTA PMP -->
+  <section class="view active" id="view-pmp">
+    <div class="filters" id="filters-pmp">
+      <input type="search" id="fpmp-text" placeholder="🔍 Buscar...">
+      <select id="fpmp-equipo"><option value="">— Todos los equipos —</option></select>
+      <select id="fpmp-mes"><option value="">— Cualquier mes —</option></select>
+      <select id="fpmp-codigo"><option value="">— Cualquier código —</option></select>
+      <select id="fpmp-estado"><option value="">— Cualquier estado —</option></select>
+      <div class="legend">
+        <span class="chip x">X</span> programada
+        <span class="chip r">R</span> reprogramada
+        <span class="chip ra">RA</span> año anterior
+        <span class="chip pm">PM</span> puesta en marcha
+        <span class="chip ovr">●</span> override manual
+      </div>
+    </div>
+    <div class="sort-info" id="sort-info-pmp">
+      <span id="sort-info-pmp-text"></span>
+      <button id="btn-reset-sort-pmp">Restaurar orden original</button>
+    </div>
+    <div class="table-wrap" id="wrap-pmp">
+      <table class="data" id="tbl-pmp"></table>
+    </div>
+  </section>
+
+  <!-- VISTA REGISTRO -->
+  <section class="view" id="view-registro">
+    <div class="filters" id="filters-reg">
+      <input type="search" id="freg-text" placeholder="🔍 Buscar...">
+      <select id="freg-equipo"><option value="">— Todos los equipos —</option></select>
+      <select id="freg-mes"><option value="">— Cualquier mes —</option></select>
+      <div class="legend">
+        <span class="chip pm">Si</span> realizada
+        <span class="chip" style="background: rgba(229,72,77,.15); color: var(--danger);">C1–C8</span> causal
+        <span class="chip" style="background: rgba(229,72,77,.3); color: #fff;">FS</span> fuera serv.
+        <span class="chip" style="background: rgba(125,133,144,.2); color: var(--code-baja);">Baja</span>
+        <span class="chip" style="background: rgba(210,153,34,.2); color: var(--code-nu);">NU</span>
+      </div>
+    </div>
+    <div class="sort-info" id="sort-info-reg">
+      <span id="sort-info-reg-text"></span>
+      <button id="btn-reset-sort-reg">Restaurar orden original</button>
+    </div>
+    <div class="table-wrap" id="wrap-reg">
+      <table class="data" id="tbl-reg"></table>
+    </div>
+  </section>
+
+  <!-- VISTA PLANTILLA -->
+  <section class="view" id="view-plantilla">
+    <div class="plantilla-toolbar">
+      <select id="pl-mes"><option value="">— Selecciona mes —</option></select>
+      <button class="btn primary" id="btn-generar-pl">Generar</button>
+      <button class="btn" id="btn-descargar-pl">⬇ Descargar Plantilla_Asignacion</button>
+      <span class="count" id="pl-count"></span>
+    </div>
+    <div class="table-wrap" id="wrap-pl">
+      <table class="data" id="tbl-pl"></table>
+    </div>
+  </section>
+
+  <!-- VISTA PENDIENTES -->
+  <section class="view" id="view-pendientes">
+    <div class="stats-grid" id="pend-stats"></div>
+    <div class="filters">
+      <input type="search" id="fp-text" placeholder="🔍 Buscar...">
+      <select id="fp-estado">
+        <option value="">— Cualquier estado —</option>
+        <option>Abierto</option><option>En gestión</option><option>En espera</option><option>Cerrado</option>
+      </select>
+      <select id="fp-tipo">
+        <option value="">— Cualquier tipo —</option>
+        <option>Reparación</option><option>Repuesto / Insumo</option><option>Servicio técnico</option>
+        <option>MP atrasada</option><option>Solicitud de trabajo</option><option>Inspección / Verificación</option>
+        <option>Otro</option>
+      </select>
+      <select id="fp-prio">
+        <option value="">— Cualquier prio. —</option>
+        <option>Alta</option><option>Media</option><option>Baja</option>
+      </select>
+      <select id="fp-resp"><option value="">— Cualquier resp. —</option></select>
+      <select id="fp-sort">
+        <option value="prio">Ord: Prioridad</option>
+        <option value="due">Ord: Fecha límite</option>
+        <option value="created">Ord: Más recientes</option>
+        <option value="equip">Ord: Equipo</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table class="data" id="tbl-pend"></table></div>
+  </section>
+
+  <!-- VISTA EVENTOS -->
+  <section class="view" id="view-eventos">
+    <div class="filters">
+      <input type="search" id="fe-text" placeholder="🔍 Buscar...">
+      <select id="fe-tipo">
+        <option value="">— Cualquier tipo —</option>
+        <option>Mantención Preventiva</option>
+        <option>Envío a Servicio Técnico</option>
+        <option>Solicitud de Trabajo</option>
+        <option>Recepción</option>
+        <option>Reparación</option>
+      </select>
+    </div>
+    <div class="event-list" id="event-list"></div>
+  </section>
+</main>
+
+<!-- MODALES -->
+<div class="modal-bg" id="modal-cell">
+  <div class="modal">
+    <div class="modal-head"><h3>Editar programación</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <label><span>Equipo</span><input type="text" id="mc-equipo" readonly></label>
+      <label><span>Mes</span><input type="text" id="mc-mes" readonly></label>
+      <label><span>Código</span>
+        <select id="mc-codigo">
+          <option value="">(vacío)</option>
+          <option>X</option><option>R</option><option>RA</option><option>PM</option>
+        </select>
+      </label>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" data-close>Cancelar</button>
+      <button class="btn primary" id="mc-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-result">
+  <div class="modal">
+    <div class="modal-head"><h3>Registrar resultado</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <label><span>Equipo</span><input type="text" id="mr-equipo" readonly></label>
+      <div class="form-row">
+        <label><span>Mes</span><input type="text" id="mr-mes" readonly></label>
+        <label><span>Programación (P)</span><input type="text" id="mr-p" readonly></label>
+      </div>
+      <label><span>Resultado (R)</span>
+        <select id="mr-r">
+          <option value="">(vacío)</option>
+          <option>Si</option><option>Si-RA</option>
+          <option>C1</option><option>C2</option><option>C3</option><option>C4</option>
+          <option>C5</option><option>C6</option><option>C7</option><option>C8</option>
+          <option>FS</option><option>Baja</option><option>NU</option>
+        </select>
+      </label>
+      <label id="mr-reprog-row" style="display:none"><span>Reprogramar a mes</span>
+        <select id="mr-reprog">
+          <option value="">— Sin reprogramar aún —</option>
+        </select>
+      </label>
+      <div class="info-banner" id="mr-causal-info"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" data-close>Cancelar</button>
+      <button class="btn primary" id="mr-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-evento">
+  <div class="modal">
+    <div class="modal-head"><h3 id="me-title">Nuevo evento</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label><span>Tipo</span>
+          <select id="me-tipo">
+            <option>Mantención Preventiva</option>
+            <option>Envío a Servicio Técnico</option>
+            <option>Solicitud de Trabajo</option>
+            <option>Recepción</option>
+            <option>Reparación</option>
+          </select>
+        </label>
+        <label><span>Equipo (N° Inventario)</span>
+          <input type="text" id="me-equipo" list="datalist-equipos">
+        </label>
+      </div>
+      <div id="me-dyn"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn danger" id="me-delete" style="margin-right:auto; display:none">Eliminar</button>
+      <button class="btn" data-close>Cancelar</button>
+      <button class="btn primary" id="me-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-pend">
+  <div class="modal lg">
+    <div class="modal-head"><h3 id="mp-title">Nuevo pendiente</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <label><span>Título</span><input type="text" id="mp-titulo"></label>
+      <div class="form-row">
+        <label><span>Tipo</span>
+          <select id="mp-tipo">
+            <option>Reparación</option>
+            <option>Repuesto / Insumo</option>
+            <option>Servicio técnico</option>
+            <option>MP atrasada</option>
+            <option>Solicitud de trabajo</option>
+            <option>Inspección / Verificación</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label><span>Prioridad</span>
+          <select id="mp-prio"><option>Alta</option><option selected>Media</option><option>Baja</option></select>
+        </label>
+      </div>
+      <label><span>Equipo (N° Inventario)</span>
+        <input type="text" id="mp-equipo" list="datalist-equipos">
+      </label>
+      <div class="form-row">
+        <label><span>Responsable</span><select id="mp-resp"></select></label>
+        <label><span>Fecha límite</span><input type="date" id="mp-due"></label>
+      </div>
+      <div class="form-row">
+        <label><span>Estado</span>
+          <select id="mp-estado">
+            <option>Abierto</option><option>En gestión</option><option>En espera</option><option>Cerrado</option>
+          </select>
+        </label>
+        <label><span>Fecha creación</span><input type="text" id="mp-created" readonly></label>
+      </div>
+      <label><span>Descripción</span><textarea id="mp-desc"></textarea></label>
+
+      <div class="section-divider">Histórico de acciones</div>
+      <div class="timeline" id="mp-timeline"></div>
+      <div class="timeline-add">
+        <input type="text" id="mp-action-text" placeholder="Nueva acción / avance...">
+        <select id="mp-action-author"></select>
+        <button class="btn" id="mp-action-add">Añadir</button>
+      </div>
+
+      <div class="section-divider">Archivos adjuntos</div>
+      <div class="attach-area" id="mp-attach-area">📎 Arrastra o haz click para añadir archivos (max 5MB)</div>
+      <input type="file" id="mp-attach-input" multiple style="display:none">
+      <div class="attach-list" id="mp-attach-list"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn danger left-spacer" id="mp-delete" style="display:none">Eliminar</button>
+      <button class="btn" data-close>Cancelar</button>
+      <button class="btn primary" id="mp-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-estado">
+  <div class="modal">
+    <div class="modal-head"><h3>Cambiar estado del equipo</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <label><span>Equipo</span><input type="text" id="mes-equipo" readonly></label>
+      <label><span>Estado actual (auto)</span><input type="text" id="mes-actual" readonly></label>
+      <label><span>Nuevo estado</span>
+        <select id="mes-nuevo">
+          <option>Operativo</option><option>No operativo</option><option>En servicio técnico</option>
+          <option>En préstamo</option><option>Fuera de servicio</option><option>Baja</option>
+        </select>
+      </label>
+      <label><span>Motivo del cambio (opcional)</span><textarea id="mes-motivo"></textarea></label>
+      <div class="info-banner">
+        Los estados se derivan automáticamente del último evento o resultado del registro. Si pones un override manual, prevalece hasta que registres un nuevo evento que lo modifique.
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" data-close>Cancelar</button>
+      <button class="btn" id="mes-quitar">Quitar override</button>
+      <button class="btn primary" id="mes-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<datalist id="datalist-equipos"></datalist>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================================
+   SGMP 2026 — Sistema de Gestión de Mantenciones Preventivas
+   Hospital Hernán Henríquez Aravena de Temuco
+   Archivo único, sin frameworks, vanilla JS.
+   ============================================================================ */
+
+/* ---------------------------------------------------------------------------
+   CONSTANTES GLOBALES
+   --------------------------------------------------------------------------- */
+const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const FAMILIAS = ['Monitores','Ventiladores','Desfibriladores','M Anestesia','Incubadoras','M Diálisis'];
+const RESPONSABLES = [
+  'Carlos Bahamondes Seguel',
+  'Cristián Beltrán Oviedo',
+  'Cristina Rozas Urrutia',
+  'Daniel Díaz Neira',
+  'Ignacio Berner Bergara',
+  'Macarena Toledo',
+  'Marco Ulloa',
+  'Matías Soazo Garrido',
+  'Personal externo',
+  'Ricardo Matus Aroca',
+  'Tito Millapán Riquelme'
+];
+const CAUSALES_REPROG = ['C1','C5','C6','C7','C8'];
+const ESTADOS_EQUIPO = ['Operativo','No operativo','En servicio técnico','En préstamo','Fuera de servicio','Baja'];
+
+const COL_BASE = [
+  'ID','N° Carpeta','N° Inventario','Equipo','Servicio','Unidad','Ubicación',
+  'Procedencia','Marca','Modelo','Serie','Año de Instalación','Vida Útil Residual',
+  'Clasificación','ENU/Baja','Frecuencia MP'
+];
+
+const CAUSALES_INFO = {
+  'C1': 'Imposibilidad de desocupar el equipo del paciente (indicación clínica). Reprograma dentro de 30 días.',
+  'C2': 'Equipo en servicio técnico. No reprograma (esperar reintegro).',
+  'C3': 'Equipo no operativo, espera de repuestos o accesorios. No reprograma (esperar reintegro).',
+  'C4': 'Equipo en préstamo a otro hospital o institución. No reprograma (esperar reintegro).',
+  'C5': 'No disponibilidad de horas hombre del funcionario SEC por alta carga laboral. Reprograma dentro de 30 días.',
+  'C6': 'No disponibilidad de horas hombre del servicio técnico externo. Reprograma dentro de 30 días.',
+  'C7': 'Ausencia justificada del funcionario SEC superior a 15 días. Reprograma dentro de 30 días.',
+  'C8': 'Contingencia hospitalaria (alerta sanitaria, accidentes múltiples, traslados). Reprograma dentro de 30 días.'
+};
+
+const EQUIPO_A_FAMILIA = {
+  'Monitor Multiparámetros':    'Monitores',
+  'Ventilador Mecánico':         'Ventiladores',
+  'Ventilador Alta Frecuencia':  'Ventiladores',
+  'Desfibrilador':               'Desfibriladores',
+  'DEA':                         'Desfibriladores',
+  'Máquina de Anestesia':        'M Anestesia',
+  'Incubadora':                  'Incubadoras',
+  'Máquina Diálisis':            'M Diálisis',
+  'Oxímetro':                    'Monitores',
+  'Oxímetro de Pulso':           'Monitores'
+};
+
+function getFamiliaDeEquipo(equipo){
+  if(!equipo) return 'Otros';
+  const exacto = EQUIPO_A_FAMILIA[equipo.trim()];
+  if(exacto) return exacto;
+  const e = equipo.toLowerCase();
+  if(e.includes('monitor') || e.includes('oxímetro') || e.includes('oximetro')) return 'Monitores';
+  if(e.includes('ventilador')) return 'Ventiladores';
+  if(e.includes('desfibrilador') || e.includes('dea')) return 'Desfibriladores';
+  if(e.includes('anestesia')) return 'M Anestesia';
+  if(e.includes('incubadora')) return 'Incubadoras';
+  if(e.includes('diálisis') || e.includes('dialisis')) return 'M Diálisis';
+  return 'Otros';
+}
+
+/* ---------------------------------------------------------------------------
+   MAPEO DETERMINISTA DE COLUMNAS (índice base 0)
+   --------------------------------------------------------------------------- */
+const PMP_HEADER_ROW = 6;
+const PMP_DATA_START_ROW = 7;
+const REG_HEADER_MES_ROW = 5;
+const REG_HEADER_PR_ROW = 6;
+const REG_DATA_START_ROW = 7;
+
+const PMP_COL_MAP = {
+  'ID':                  1,
+  'N° Carpeta':          2,
+  'N° Inventario':       3,
+  'Equipo':              4,
+  'Servicio':            5,
+  'Unidad':              6,
+  'Ubicación':           7,
+  'Procedencia':         8,
+  'Marca':               9,
+  'Modelo':              10,
+  'Serie':               11,
+  'Año de Instalación':  12,
+  'Vida Útil Residual':  13,
+  'Clasificación':       14,
+  'ENU/Baja':            15,
+  'Frecuencia MP':       17
+};
+
+const PMP_MESES_COLS = {
+  'Ene': 19, 'Feb': 20, 'Mar': 21, 'Abr': 22, 'May': 23, 'Jun': 24,
+  'Jul': 25, 'Ago': 26, 'Sep': 27, 'Oct': 28, 'Nov': 29, 'Dic': 30
+};
+
+const REG_COL_MAP = Object.assign({}, PMP_COL_MAP);
+
+const REG_MESES_COLS = {
+  'Ene': { P: 19, R: 20 },
+  'Feb': { P: 21, R: 22 },
+  'Mar': { P: 23, R: 24 },
+  'Abr': { P: 25, R: 26 },
+  'May': { P: 27, R: 28 },
+  'Jun': { P: 29, R: 30 },
+  'Jul': { P: 31, R: 32 },
+  'Ago': { P: 33, R: 34 },
+  'Sep': { P: 35, R: 36 },
+  'Oct': { P: 37, R: 38 },
+  'Nov': { P: 39, R: 40 },
+  'Dic': { P: 41, R: 42 }
+};
+
+const CODIGOS_VALIDOS_PMP = new Set(['X','R','RA','PM']);
+const CODIGOS_VALIDOS_R = new Set(['Si','Si-RA','C1','C2','C3','C4','C5','C6','C7','C8','FS','Baja','NU']);
+
+function normalizarR(val){
+  if(val == null) return '';
+  const s = String(val).trim();
+  if(!s) return '';
+  if(s.toUpperCase() === 'SI') return 'Si';
+  if(s.toUpperCase() === 'SI-RA') return 'Si-RA';
+  if(CODIGOS_VALIDOS_R.has(s)) return s;
+  return null;
+}
+
+function normalizarP(val){
+  if(val == null) return '';
+  const s = String(val).trim().toUpperCase();
+  if(!s) return '';
+  if(s === 'X') return 'X';
+  if(s === 'R') return 'R';
+  if(s === 'RA') return 'RA';
+  if(s === 'PM') return 'PM';
+  return null;
+}
+
+/* ---------------------------------------------------------------------------
+   ESTADO GLOBAL
+   --------------------------------------------------------------------------- */
+const state = {
+  fileName: null,
+  pmp: [],
+  registro: [],
+  events: [],
+  pendientes: [],
+  asignacionesMensuales: {},
+  cellEdit: null,
+  resultEdit: null,
+  eventEdit: null,
+  pendEdit: null,
+  _estadoEditInv: null,
+  _plantillaMes: null,
+  _plantillaData: []
+};
+
+const excelFilters = { pmp: {}, registro: {} };
+const sortState = { pmp: null, registro: null }; // {column, dir}
+
+/* ---------------------------------------------------------------------------
+   HELPERS
+   --------------------------------------------------------------------------- */
+const $  = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+function el(tag, attrs, ...children){
+  attrs = attrs || {};
+  const e = document.createElement(tag);
+  for(const k in attrs){
+    if(attrs[k] == null) continue;
+    if(k === 'class') e.className = attrs[k];
+    else if(k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]);
+    else if(k === 'dataset') Object.assign(e.dataset, attrs[k]);
+    else if(k === 'html') e.innerHTML = attrs[k];
+    else e.setAttribute(k, attrs[k]);
+  }
+  for(const c of children){
+    if(c == null || c === false) continue;
+    if(Array.isArray(c)){ c.forEach(x => e.appendChild(typeof x === 'string' ? document.createTextNode(x) : x)); continue; }
+    e.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
+  }
+  return e;
+}
+
+function toast(msg, kind){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (kind || '');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { t.className = 'toast'; }, 2800);
+}
+
+function debounce(fn, ms){
+  let h;
+  return function(...args){ clearTimeout(h); h = setTimeout(() => fn.apply(this, args), ms); };
+}
+
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+
+function escapeAttr(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function fmtSize(b){
+  if(b < 1024) return b + ' B';
+  if(b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+  return (b/1024/1024).toFixed(2) + ' MB';
+}
+
+function findPMPByInv(inv){
+  return state.pmp.find(r => r['N° Inventario'] === inv);
+}
+function findRegByInv(inv){
+  return state.registro.find(r => r['N° Inventario'] === inv);
+}
+
+function openModal(id){ $('#'+id).classList.add('show'); }
+function closeModal(id){ $('#'+id).classList.remove('show'); }
+function closeAllModals(){ $$('.modal-bg').forEach(m => m.classList.remove('show')); }
+
+/* close handlers */
+document.addEventListener('click', (ev) => {
+  if(ev.target.matches('[data-close]')){
+    const mb = ev.target.closest('.modal-bg');
+    if(mb) mb.classList.remove('show');
+  }
+  if(ev.target.classList.contains('modal-bg')){
+    ev.target.classList.remove('show');
+  }
+});
+document.addEventListener('keydown', (ev) => {
+  if(ev.key === 'Escape'){
+    const open = $$('.modal-bg.show');
+    if(open.length){ open[open.length-1].classList.remove('show'); return; }
+    const pop = $('.excel-popover');
+    if(pop) pop.remove();
+  }
+});
+
+/* ---------------------------------------------------------------------------
+   NAVEGACIÓN ENTRE VISTAS
+   --------------------------------------------------------------------------- */
+$('#nav').addEventListener('click', (ev) => {
+  if(ev.target.tagName !== 'BUTTON') return;
+  const v = ev.target.dataset.view;
+  $$('#nav button').forEach(b => b.classList.toggle('active', b === ev.target));
+  $$('.view').forEach(s => s.classList.toggle('active', s.id === 'view-'+v));
+});
+
+/* ---------------------------------------------------------------------------
+   PARSER XLSX
+   --------------------------------------------------------------------------- */
+function validarCabeceraPMP(rows){
+  if(rows.length < PMP_DATA_START_ROW + 1){
+    throw new Error('La hoja PMP_2026 tiene menos filas de las esperadas (mínimo 8).');
+  }
+  const header = rows[PMP_HEADER_ROW];
+  const checks = [
+    [PMP_COL_MAP['ID'],            /^ID$/i,                'ID'],
+    [PMP_COL_MAP['N° Inventario'], /^N°\s*Inventario/i,    'N° Inventario'],
+    [PMP_COL_MAP['Equipo'],        /^Equipo$/i,            'Equipo'],
+    [PMP_MESES_COLS['Ene'],        /^Ene/i,                'Ene'],
+    [PMP_MESES_COLS['Dic'],        /^Dic/i,                'Dic']
+  ];
+  for(const [col, regex, label] of checks){
+    const val = String(header[col] || '').trim();
+    if(!regex.test(val)){
+      throw new Error(`Cabecera PMP_2026 inesperada en columna ${col+1} (fila ${PMP_HEADER_ROW+1}): se esperaba "${label}", se encontró "${val}".`);
+    }
+  }
+  return true;
+}
+
+function validarCabeceraReg(rows){
+  if(!rows || rows.length < REG_DATA_START_ROW + 1) return false;
+  const headerMes = rows[REG_HEADER_MES_ROW];
+  const headerPR = rows[REG_HEADER_PR_ROW];
+  const checks = [
+    [REG_COL_MAP['ID'],            headerPR,  /^ID$/i,             'ID'],
+    [REG_COL_MAP['N° Inventario'], headerPR,  /^N°\s*Inventario/i, 'N° Inventario'],
+    [REG_MESES_COLS['Ene'].P,      headerMes, /^Ene/i,             'Ene'],
+    [REG_MESES_COLS['Ene'].P,      headerPR,  /^P$/i,              'P de Ene'],
+    [REG_MESES_COLS['Ene'].R,      headerPR,  /^R$/i,              'R de Ene'],
+    [REG_MESES_COLS['Dic'].R,      headerPR,  /^R$/i,              'R de Dic']
+  ];
+  for(const [col, hdrRow, regex, label] of checks){
+    const val = String((hdrRow && hdrRow[col]) || '').trim();
+    if(!regex.test(val)){
+      console.warn(`Cabecera Registro_MP-2026 inesperada en col ${col+1}: se esperaba "${label}", se encontró "${val}".`);
+    }
+  }
+  return true;
+}
+
+function parsePMP(rows){
+  validarCabeceraPMP(rows);
+  const equipos = [];
+  let warnings = 0;
+  for(let i = PMP_DATA_START_ROW; i < rows.length; i++){
+    const row = rows[i];
+    if(!row || row.length === 0) continue;
+    const inv = String(row[PMP_COL_MAP['N° Inventario']] || '').trim();
+    if(!inv){
+      const eq = String(row[PMP_COL_MAP['Equipo']] || '').trim();
+      if(!eq) continue;
+      console.warn(`[PMP] Fila ${i+1}: equipo "${eq}" sin N° Inventario, descartado.`);
+      warnings++;
+      continue;
+    }
+    const equipo = { isHeader: false, _rowIdx: i };
+    for(const campo of Object.keys(PMP_COL_MAP)){
+      const val = row[PMP_COL_MAP[campo]];
+      equipo[campo] = val != null ? String(val).trim() : '';
+    }
+    for(const mes of Object.keys(PMP_MESES_COLS)){
+      const raw = row[PMP_MESES_COLS[mes]];
+      const norm = normalizarP(raw);
+      if(norm === null){
+        console.warn(`[PMP] Fila ${i+1} ${mes}: valor inválido "${raw}", ignorado.`);
+        warnings++;
+        equipo[mes] = '';
+      } else {
+        equipo[mes] = norm;
+      }
+    }
+    equipo.family = getFamiliaDeEquipo(equipo['Equipo']);
+    equipos.push(equipo);
+  }
+  return { equipos, warnings };
+}
+
+function parseRegistro(rows){
+  if(!rows) return { registros: [], warnings: 0 };
+  validarCabeceraReg(rows);
+  const registros = [];
+  let warnings = 0;
+  for(let i = REG_DATA_START_ROW; i < rows.length; i++){
+    const row = rows[i];
+    if(!row || row.length === 0) continue;
+    const inv = String(row[REG_COL_MAP['N° Inventario']] || '').trim();
+    if(!inv){
+      const eq = String(row[REG_COL_MAP['Equipo']] || '').trim();
+      if(!eq) continue;
+      continue;
+    }
+    const reg = { isHeader: false, _rowIdx: i };
+    for(const campo of Object.keys(REG_COL_MAP)){
+      const val = row[REG_COL_MAP[campo]];
+      reg[campo] = val != null ? String(val).trim() : '';
+    }
+    for(const mes of Object.keys(REG_MESES_COLS)){
+      const cols = REG_MESES_COLS[mes];
+      const rawP = row[cols.P];
+      const normP = normalizarP(rawP);
+      if(normP === null){
+        console.warn(`[Reg] Fila ${i+1} ${mes}_P: valor inválido "${rawP}", ignorado.`);
+        warnings++;
+        reg[mes + '_P'] = '';
+      } else {
+        reg[mes + '_P'] = normP;
+      }
+      const rawR = row[cols.R];
+      const normR = normalizarR(rawR);
+      if(normR === null){
+        console.warn(`[Reg] Fila ${i+1} ${mes}_R: valor inválido "${rawR}", ignorado.`);
+        warnings++;
+        reg[mes + '_R'] = '';
+      } else {
+        reg[mes + '_R'] = normR;
+      }
+    }
+    reg.family = getFamiliaDeEquipo(reg['Equipo']);
+    registros.push(reg);
+  }
+  return { registros, warnings };
+}
+
+async function cargarArchivoXLSM(file){
+  state.fileName = file.name;
+  $('#status').textContent = `Leyendo ${file.name}...`;
+  let buf, wb;
+  try {
+    buf = await file.arrayBuffer();
+    wb = XLSX.read(buf, { type: 'array', cellStyles: false });
+  } catch(err){
+    toast('Error al abrir el archivo: ' + err.message, 'error');
+    return;
+  }
+  const pmpSheetName = wb.SheetNames.find(n => /^PMP[_ -]?2026/i.test(n)) || wb.SheetNames[0];
+  const regSheetName = wb.SheetNames.find(n => /^Registro[_ -]?MP[_ -]?2026/i.test(n))
+                    || wb.SheetNames.find(n => /^Registro/i.test(n));
+
+  let pmpResult, regResult;
+  try {
+    const pmpRows = XLSX.utils.sheet_to_json(wb.Sheets[pmpSheetName], { header: 1, defval: '', raw: false });
+    pmpResult = parsePMP(pmpRows);
+  } catch(err){
+    toast('Error parseando PMP_2026: ' + err.message, 'error');
+    console.error(err);
+    return;
+  }
+  if(regSheetName){
+    try {
+      const regRows = XLSX.utils.sheet_to_json(wb.Sheets[regSheetName], { header: 1, defval: '', raw: false });
+      regResult = parseRegistro(regRows);
+    } catch(err){
+      toast('Error parseando Registro: ' + err.message, 'error');
+      console.error(err);
+      regResult = { registros: [], warnings: 0 };
+    }
+  } else {
+    toast('No se encontró la hoja Registro_MP-2026. Se generará un registro espejo del PMP.', 'error');
+    regResult = { registros: [], warnings: 0 };
+  }
+
+  const pmpByInv = new Map();
+  pmpResult.equipos.forEach(e => pmpByInv.set(e['N° Inventario'], e));
+  const regByInv = new Map();
+  let huerfanas = 0;
+  regResult.registros.forEach(r => {
+    if(pmpByInv.has(r['N° Inventario'])) regByInv.set(r['N° Inventario'], r);
+    else { huerfanas++; console.warn(`[Vinculación] Registro "${r['N° Inventario']}" sin contraparte en PMP, descartado.`); }
+  });
+
+  let espejos = 0;
+  pmpResult.equipos.forEach(eq => {
+    if(!regByInv.has(eq['N° Inventario'])){
+      const espejo = { isHeader: false, family: eq.family };
+      for(const campo of Object.keys(PMP_COL_MAP)) espejo[campo] = eq[campo];
+      for(const mes of Object.keys(PMP_MESES_COLS)){
+        espejo[mes + '_P'] = eq[mes] || '';
+        espejo[mes + '_R'] = '';
+      }
+      regByInv.set(eq['N° Inventario'], espejo);
+      espejos++;
+    }
+  });
+
+  const registroOrdenado = pmpResult.equipos.map(eq => regByInv.get(eq['N° Inventario']));
+
+  state.pmp = pmpResult.equipos;
+  state.registro = registroOrdenado;
+
+  const totalWarnings = pmpResult.warnings + regResult.warnings;
+  console.info(`[Parser] PMP: ${state.pmp.length} equipos · Registro: ${state.registro.length} · espejos: ${espejos} · huérfanas: ${huerfanas} · warnings: ${totalWarnings}`);
+
+  // limpiar filtros excel previos
+  excelFilters.pmp = {};
+  excelFilters.registro = {};
+  sortState.pmp = null;
+  sortState.registro = null;
+
+  populateSelectors();
+  renderAll();
+  scheduleAutosave();
+
+  const detalles = [];
+  if(espejos > 0) detalles.push(`${espejos} sin registro previo (creados)`);
+  if(huerfanas > 0) detalles.push(`${huerfanas} huérfanos descartados`);
+  if(totalWarnings > 0) detalles.push(`${totalWarnings} valores inválidos`);
+  $('#status').textContent = `${file.name} · ${state.pmp.length} equipos`;
+  toast(`Archivo cargado: ${state.pmp.length} equipos${detalles.length ? ' · ' + detalles.join(' · ') : ''}`, 'ok');
+}
+
+/* ---------------------------------------------------------------------------
+   POPULAR SELECTORES
+   --------------------------------------------------------------------------- */
+function populateSelectors(){
+  // Filtros de equipo (agrupados por familia con optgroup)
+  const equipoSelects = [$('#fpmp-equipo'), $('#freg-equipo')];
+  equipoSelects.forEach(sel => {
+    if(!sel) return;
+    const current = sel.value;
+    sel.innerHTML = '<option value="">— Todos los equipos —</option>';
+    const porFamilia = {};
+    state.pmp.forEach(eq => {
+      const f = eq.family || 'Otros';
+      if(!porFamilia[f]) porFamilia[f] = [];
+      porFamilia[f].push(eq);
+    });
+    FAMILIAS.concat(['Otros']).forEach(fam => {
+      if(!porFamilia[fam] || porFamilia[fam].length === 0) return;
+      const og = document.createElement('optgroup');
+      og.label = fam;
+      porFamilia[fam].forEach(eq => {
+        const opt = document.createElement('option');
+        opt.value = eq['N° Inventario'];
+        opt.textContent = `[${eq['N° Inventario']}] — ${eq['Equipo']}`;
+        og.appendChild(opt);
+      });
+      sel.appendChild(og);
+    });
+    sel.value = current;
+  });
+
+  // Selector de mes en pmp/reg/plantilla
+  ['#fpmp-mes','#freg-mes','#pl-mes'].forEach(id => {
+    const sel = $(id);
+    if(!sel) return;
+    const current = sel.value;
+    const placeholder = id === '#pl-mes' ? '— Selecciona mes —' : '— Cualquier mes —';
+    sel.innerHTML = `<option value="">${placeholder}</option>`;
+    MESES.forEach(m => sel.appendChild(el('option', { value: m }, m)));
+    sel.value = current;
+  });
+
+  // Código
+  const fc = $('#fpmp-codigo');
+  if(fc){
+    const current = fc.value;
+    fc.innerHTML = '<option value="">— Cualquier código —</option>';
+    ['X','R','RA','PM'].forEach(c => fc.appendChild(el('option', { value: c }, c)));
+    fc.value = current;
+  }
+
+  // Estado
+  const fe = $('#fpmp-estado');
+  if(fe){
+    const current = fe.value;
+    fe.innerHTML = '<option value="">— Cualquier estado —</option>';
+    ESTADOS_EQUIPO.forEach(s => fe.appendChild(el('option', { value: s }, s)));
+    fe.value = current;
+  }
+
+  // Datalist de equipos para inputs autocompletados
+  const dl = $('#datalist-equipos');
+  dl.innerHTML = '';
+  state.pmp.forEach(eq => {
+    const opt = document.createElement('option');
+    opt.value = eq['N° Inventario'];
+    opt.textContent = eq['Equipo'] + (eq['Servicio'] ? ' · ' + eq['Servicio'] : '');
+    dl.appendChild(opt);
+  });
+
+  // Responsables en filtros y modales
+  const fpResp = $('#fp-resp');
+  if(fpResp){
+    fpResp.innerHTML = '<option value="">— Cualquier resp. —</option><option value="__sa__">(Sin asignar)</option>';
+    RESPONSABLES.forEach(r => fpResp.appendChild(el('option', { value: r }, r)));
+  }
+  const mpResp = $('#mp-resp');
+  if(mpResp){
+    mpResp.innerHTML = '<option value="">— Sin asignar —</option>';
+    RESPONSABLES.forEach(r => mpResp.appendChild(el('option', { value: r }, r)));
+  }
+  const mpAuthor = $('#mp-action-author');
+  if(mpAuthor){
+    mpAuthor.innerHTML = '';
+    const def = 'Cristián Beltrán Oviedo';
+    mpAuthor.appendChild(el('option', { value: def }, def));
+    RESPONSABLES.forEach(r => {
+      if(r !== def) mpAuthor.appendChild(el('option', { value: r }, r));
+    });
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   ESTADO DEL EQUIPO
+   --------------------------------------------------------------------------- */
+function getEstadoEquipo(inv){
+  const pmpRow = findPMPByInv(inv);
+  if(!pmpRow) return 'Operativo';
+  if(pmpRow._estadoOverride) return pmpRow._estadoOverride;
+
+  // Eventos del equipo, ordenados por fecha
+  const evs = state.events
+    .filter(e => e.equipInv === inv && e.date)
+    .sort((a,b) => (a.date || '').localeCompare(b.date || ''));
+
+  let estado = 'Operativo';
+  let huboEventos = false;
+  for(const e of evs){
+    huboEventos = true;
+    if(e.type === 'Envío a Servicio Técnico') estado = 'En servicio técnico';
+    else if(e.type === 'Recepción'){
+      if(e.estado === 'Operativo') estado = 'Operativo';
+      else if(e.estado === 'No operativo') estado = 'No operativo';
+    } else if(e.type === 'Reparación'){
+      if(e.estado === 'Operativo') estado = 'Operativo';
+      else if(e.estado === 'No operativo') estado = 'No operativo';
+    } else if(e.type === 'Mantención Preventiva'){
+      const r = e.resultado;
+      if(r === 'FS') estado = 'Fuera de servicio';
+      else if(r === 'Baja') estado = 'Baja';
+      else if(r === 'C4') estado = 'En préstamo';
+      else if(r === 'C2' || r === 'C3') estado = 'En servicio técnico';
+      else if(r === 'Si'){
+        if(e.estado === 'No operativo') estado = 'No operativo';
+        else if(e.estado === 'Operativo') estado = 'Operativo';
+      }
+    } else if(e.type === 'Solicitud de Trabajo'){
+      if(estado === 'Operativo') estado = 'No operativo';
+    }
+  }
+  if(huboEventos) return estado;
+
+  // Sin eventos: derivar del registro
+  const reg = findRegByInv(inv);
+  if(reg){
+    for(const m of MESES){
+      const r = reg[m + '_R'];
+      if(r === 'FS') estado = 'Fuera de servicio';
+      else if(r === 'Baja') estado = 'Baja';
+      else if(r === 'C4') estado = 'En préstamo';
+      else if(r === 'C2' || r === 'C3') estado = 'En servicio técnico';
+      else if(r === 'Si' || r === 'Si-RA') estado = 'Operativo';
+    }
+  }
+  return estado;
+}
+
+function estadoBadge(inv, estado){
+  const pmpRow = findPMPByInv(inv);
+  const hasOverride = pmpRow && pmpRow._estadoOverride;
+  const cls = 'estado-' + estado.replace(/\s/g,'.');
+  const dot = hasOverride ? '<span class="ovr-dot" title="Override manual">●</span>' : '';
+  return `<span class="${cls} estado-cell" data-inv="${escapeAttr(inv)}">${dot}${escapeAttr(estado)}</span>`;
+}
+
+/* ---------------------------------------------------------------------------
+   RENDER PMP_2026
+   --------------------------------------------------------------------------- */
+const PMP_COLS = [
+  { key: 'N° Carpeta',    label: 'N° Carpeta',    width: 80 },
+  { key: 'N° Inventario', label: 'N° Inventario', width: 100 },
+  { key: 'Equipo',        label: 'Equipo',        width: 180 },
+  { key: 'Servicio',      label: 'Servicio',      width: 140 },
+  { key: 'Ubicación',     label: 'Ubicación',     width: 140 },
+  { key: 'Marca',         label: 'Marca',         width: 110 },
+  { key: 'Modelo',        label: 'Modelo',        width: 130 },
+  { key: 'Frecuencia MP', label: 'Frecuencia MP', width: 110 },
+  { key: '_estado',       label: 'Estado',        width: 130, computed: true }
+];
+
+function ordenarPorFamiliaYRow(rows){
+  // Orden estable: por familia (según FAMILIAS), luego por _rowIdx
+  const idx = {};
+  FAMILIAS.forEach((f, i) => idx[f] = i);
+  idx['Otros'] = FAMILIAS.length;
+  return rows.slice().sort((a, b) => {
+    const fa = idx[a.family] ?? 99, fb = idx[b.family] ?? 99;
+    if(fa !== fb) return fa - fb;
+    return (a._rowIdx || 0) - (b._rowIdx || 0);
+  });
+}
+
+function passesGlobalFiltersPMP(row){
+  const txt = $('#fpmp-text').value.trim().toLowerCase();
+  const inv = $('#fpmp-equipo').value;
+  const mes = $('#fpmp-mes').value;
+  const code = $('#fpmp-codigo').value;
+  const est = $('#fpmp-estado').value;
+  if(inv && row['N° Inventario'] !== inv) return false;
+  if(txt){
+    const blob = [row['Equipo'], row['N° Inventario'], row['Serie'], row['Ubicación'], row['Marca'], row['Modelo'], row['N° Carpeta']]
+      .map(v => String(v || '').toLowerCase()).join(' | ');
+    if(!blob.includes(txt)) return false;
+  }
+  if(mes && code){
+    if(row[mes] !== code) return false;
+  } else if(mes){
+    if(!row[mes]) return false;
+  } else if(code){
+    if(!MESES.some(m => row[m] === code)) return false;
+  }
+  if(est){
+    if(getEstadoEquipo(row['N° Inventario']) !== est) return false;
+  }
+  return true;
+}
+
+function passesExcelFilters(row, table, columns, monthKeys){
+  const filt = excelFilters[table];
+  for(const col of columns){
+    const f = filt[col];
+    if(!f) continue;
+    let val = String(row[col] ?? '').trim();
+    // Para columnas computadas
+    if(col === '_estado') val = getEstadoEquipo(row['N° Inventario']);
+    if(f.quickText){
+      if(!val.toLowerCase().includes(f.quickText.toLowerCase())) return false;
+    }
+    if(f.selectedValues && f.selectedValues.size > 0){
+      const key = val || '(Vacíos)';
+      if(!f.selectedValues.has(key)) return false;
+    }
+  }
+  if(monthKeys){
+    for(const m of monthKeys){
+      const f = filt[m];
+      if(!f) continue;
+      let val = String(row[m] ?? '').trim();
+      if(f.quickText){
+        if(!val.toLowerCase().includes(f.quickText.toLowerCase())) return false;
+      }
+      if(f.selectedValues && f.selectedValues.size > 0){
+        const key = val || '(Vacíos)';
+        if(!f.selectedValues.has(key)) return false;
+      }
+    }
+  }
+  return true;
+}
+
+function applySortIfAny(rows, sort, columns, monthKeys){
+  if(!sort) return rows;
+  const { column, dir } = sort;
+  const out = rows.slice().sort((a, b) => {
+    let va, vb;
+    if(column === '_estado'){
+      va = getEstadoEquipo(a['N° Inventario']);
+      vb = getEstadoEquipo(b['N° Inventario']);
+    } else {
+      va = String(a[column] ?? '');
+      vb = String(b[column] ?? '');
+    }
+    // Numeric?
+    const na = parseFloat(va), nb = parseFloat(vb);
+    if(!isNaN(na) && !isNaN(nb) && /^-?\d+(\.\d+)?$/.test(va) && /^-?\d+(\.\d+)?$/.test(vb)){
+      return dir === 'asc' ? na - nb : nb - na;
+    }
+    return dir === 'asc' ? va.localeCompare(vb, 'es') : vb.localeCompare(va, 'es');
+  });
+  return out;
+}
+
+function renderPMP(){
+  const tbl = $('#tbl-pmp');
+  tbl.innerHTML = '';
+
+  // THEAD
+  const thead = el('thead');
+  const tr = el('tr');
+  const cols = PMP_COLS.slice();
+  const colsAll = cols.map(c => c.key).concat(MESES);
+
+  cols.forEach(c => tr.appendChild(buildTH(c.key, c.label, 'pmp')));
+  MESES.forEach(m => tr.appendChild(buildTH(m, m, 'pmp')));
+  thead.appendChild(tr);
+  tbl.appendChild(thead);
+
+  const tbody = el('tbody');
+  let rows;
+  const hasSort = !!sortState.pmp;
+  if(hasSort){
+    rows = state.pmp.slice();
+    rows = applySortIfAny(rows, sortState.pmp, cols.map(c=>c.key), MESES);
+  } else {
+    rows = ordenarPorFamiliaYRow(state.pmp);
+  }
+
+  rows = rows.filter(r => passesGlobalFiltersPMP(r) && passesExcelFilters(r, 'pmp', cols.map(c=>c.key), MESES));
+
+  let currentFam = null;
+  rows.forEach(row => {
+    if(!hasSort && row.family !== currentFam){
+      currentFam = row.family;
+      const fr = el('tr', { class: 'family-row' });
+      const td = el('td', { colspan: colsAll.length }, currentFam);
+      fr.appendChild(td);
+      tbody.appendChild(fr);
+    }
+    const trd = el('tr');
+    cols.forEach(c => {
+      let cell;
+      if(c.key === '_estado'){
+        const est = getEstadoEquipo(row['N° Inventario']);
+        cell = el('td', { html: estadoBadge(row['N° Inventario'], est) });
+      } else {
+        cell = el('td', null, row[c.key] || '');
+      }
+      trd.appendChild(cell);
+    });
+    MESES.forEach(m => {
+      const v = row[m];
+      const td = el('td');
+      if(v){
+        td.innerHTML = `<span class="cell-code ${v}" data-mes="${m}">${v}</span>`;
+      } else {
+        td.innerHTML = `<span class="cell-empty" data-mes="${m}">·</span>`;
+      }
+      td.addEventListener('click', (ev) => {
+        if(ev.target.closest('.cell-code') || ev.target.closest('.cell-empty')){
+          openCellEdit(row['N° Inventario'], m);
+        }
+      });
+      trd.appendChild(td);
+    });
+    // estado click
+    trd.querySelectorAll('.estado-cell').forEach(badge => {
+      badge.addEventListener('click', () => openEstadoEdit(row['N° Inventario']));
+    });
+    tbody.appendChild(trd);
+  });
+  tbl.appendChild(tbody);
+
+  // Sort info bar
+  const sortBar = $('#sort-info-pmp');
+  if(sortState.pmp){
+    sortBar.classList.add('show');
+    $('#sort-info-pmp-text').textContent = `Orden personalizado activo en columna "${sortState.pmp.column}" (${sortState.pmp.dir}).`;
+  } else {
+    sortBar.classList.remove('show');
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   RENDER REGISTRO
+   --------------------------------------------------------------------------- */
+const REG_COLS = [
+  { key: 'N° Inventario', label: 'N° Inventario' },
+  { key: 'Equipo',        label: 'Equipo' },
+  { key: 'Servicio',      label: 'Servicio' },
+  { key: 'Ubicación',     label: 'Ubicación' },
+  { key: '_estado',       label: 'Estado', computed: true }
+];
+
+function passesGlobalFiltersReg(row){
+  const txt = $('#freg-text').value.trim().toLowerCase();
+  const inv = $('#freg-equipo').value;
+  const mes = $('#freg-mes').value;
+  if(inv && row['N° Inventario'] !== inv) return false;
+  if(txt){
+    const blob = [row['Equipo'], row['N° Inventario'], row['Serie'], row['Ubicación'], row['Marca'], row['Modelo']]
+      .map(v => String(v || '').toLowerCase()).join(' | ');
+    if(!blob.includes(txt)) return false;
+  }
+  if(mes){
+    if(!row[mes + '_P'] && !row[mes + '_R']) return false;
+  }
+  return true;
+}
+
+function renderRegistro(){
+  const tbl = $('#tbl-reg');
+  tbl.innerHTML = '';
+  const cols = REG_COLS.slice();
+  const monthKeys = [];
+  MESES.forEach(m => { monthKeys.push(m + '_P'); monthKeys.push(m + '_R'); });
+
+  // doble cabecera
+  const thead = el('thead');
+  const tr1 = el('tr');
+  cols.forEach(c => {
+    const th = buildTH(c.key, c.label, 'registro');
+    th.rowSpan = 2;
+    tr1.appendChild(th);
+  });
+  MESES.forEach(m => {
+    const th = el('th', { colspan: 2, style: 'text-align:center' }, m);
+    tr1.appendChild(th);
+  });
+  thead.appendChild(tr1);
+
+  const tr2 = el('tr');
+  MESES.forEach(m => {
+    tr2.appendChild(buildTH(m + '_P', 'P', 'registro', { compact: true }));
+    tr2.appendChild(buildTH(m + '_R', 'R', 'registro', { compact: true }));
+  });
+  thead.appendChild(tr2);
+  tbl.appendChild(thead);
+
+  const tbody = el('tbody');
+  let rows;
+  const hasSort = !!sortState.registro;
+  if(hasSort){
+    rows = state.registro.slice();
+    rows = applySortIfAny(rows, sortState.registro, cols.map(c=>c.key), monthKeys);
+  } else {
+    rows = ordenarPorFamiliaYRow(state.registro);
+  }
+  rows = rows.filter(r => passesGlobalFiltersReg(r) && passesExcelFilters(r, 'registro', cols.map(c=>c.key), monthKeys));
+
+  let currentFam = null;
+  const totalCols = cols.length + MESES.length * 2;
+  rows.forEach(row => {
+    if(!hasSort && row.family !== currentFam){
+      currentFam = row.family;
+      const fr = el('tr', { class: 'family-row' });
+      fr.appendChild(el('td', { colspan: totalCols }, currentFam));
+      tbody.appendChild(fr);
+    }
+    const trd = el('tr');
+    cols.forEach(c => {
+      let cell;
+      if(c.key === '_estado'){
+        const est = getEstadoEquipo(row['N° Inventario']);
+        cell = el('td', { html: estadoBadge(row['N° Inventario'], est) });
+      } else {
+        cell = el('td', null, row[c.key] || '');
+      }
+      trd.appendChild(cell);
+    });
+    MESES.forEach(m => {
+      const p = row[m + '_P'];
+      const r = row[m + '_R'];
+      const tdP = el('td');
+      if(p){ tdP.innerHTML = `<span class="cell-code ${p}">${p}</span>`; }
+      else { tdP.innerHTML = '<span class="cell-empty">·</span>'; }
+      trd.appendChild(tdP);
+
+      const tdR = el('td');
+      const rCls = r === 'Si-RA' ? 'Si-RA' : (r || '');
+      if(r){ tdR.innerHTML = `<span class="cell-code ${rCls}" data-mes="${m}">${r}</span>`; }
+      else { tdR.innerHTML = `<span class="cell-empty" data-mes="${m}">·</span>`; }
+      tdR.addEventListener('click', (ev) => {
+        if(ev.target.closest('.cell-code') || ev.target.closest('.cell-empty')){
+          openResultEdit(row['N° Inventario'], m);
+        }
+      });
+      trd.appendChild(tdR);
+    });
+    trd.querySelectorAll('.estado-cell').forEach(badge => {
+      badge.addEventListener('click', () => openEstadoEdit(row['N° Inventario']));
+    });
+    tbody.appendChild(trd);
+  });
+  tbl.appendChild(tbody);
+
+  const sortBar = $('#sort-info-reg');
+  if(sortState.registro){
+    sortBar.classList.add('show');
+    $('#sort-info-reg-text').textContent = `Orden personalizado activo en columna "${sortState.registro.column}" (${sortState.registro.dir}).`;
+  } else {
+    sortBar.classList.remove('show');
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   FILTROS TIPO EXCEL EN ENCABEZADOS
+   --------------------------------------------------------------------------- */
+function buildTH(colKey, label, tableId, opts){
+  opts = opts || {};
+  const th = el('th', { class: 'has-filter' });
+  const filt = excelFilters[tableId][colKey];
+  if(filt && (filt.quickText || (filt.selectedValues && filt.selectedValues.size > 0))){
+    th.classList.add('filter-active');
+  }
+  const head = el('div', { class: 'th-title' });
+  const title = el('span', { class: 'title-text' }, label);
+  const btn = el('button', { class: 'filter-btn' + (filt && (filt.quickText || filt.selectedValues) ? ' active' : ''), title: 'Filtrar / ordenar' }, '▾');
+  btn.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    openExcelPopover(tableId, colKey, th);
+  });
+  head.appendChild(title);
+  head.appendChild(btn);
+  th.appendChild(head);
+
+  if(!opts.compact){
+    const qInput = el('input', {
+      type: 'text', class: 'quick-input', placeholder: '🔍',
+      value: filt ? (filt.quickText || '') : ''
+    });
+    qInput.addEventListener('input', debounce((ev) => {
+      const v = ev.target.value;
+      if(!excelFilters[tableId][colKey]) excelFilters[tableId][colKey] = { quickText: '', selectedValues: null, sortDir: null };
+      excelFilters[tableId][colKey].quickText = v;
+      if(tableId === 'pmp') renderPMP();
+      else renderRegistro();
+    }, 150));
+    th.appendChild(qInput);
+  }
+  return th;
+}
+
+function getDatasetForTable(tableId){
+  return tableId === 'pmp' ? state.pmp : state.registro;
+}
+
+function uniqueValuesForColumn(tableId, colKey){
+  const data = getDatasetForTable(tableId);
+  const counts = new Map();
+  data.forEach(row => {
+    let val;
+    if(colKey === '_estado') val = getEstadoEquipo(row['N° Inventario']);
+    else val = row[colKey];
+    const key = (val == null || String(val).trim() === '') ? '(Vacíos)' : String(val).trim();
+    counts.set(key, (counts.get(key) || 0) + 1);
+  });
+  const arr = Array.from(counts.entries());
+  arr.sort((a, b) => {
+    if(a[0] === '(Vacíos)') return 1;
+    if(b[0] === '(Vacíos)') return -1;
+    return a[0].localeCompare(b[0], 'es');
+  });
+  return arr;
+}
+
+function openExcelPopover(tableId, colKey, anchorTh){
+  // Cerrar otros
+  $$('.excel-popover').forEach(p => p.remove());
+
+  let filt = excelFilters[tableId][colKey];
+  if(!filt){
+    filt = { quickText: '', selectedValues: null, sortDir: null };
+    excelFilters[tableId][colKey] = filt;
+  }
+  const values = uniqueValuesForColumn(tableId, colKey);
+
+  const pop = el('div', { class: 'excel-popover' });
+  const rect = anchorTh.getBoundingClientRect();
+  pop.style.top = (rect.bottom + 4) + 'px';
+  pop.style.left = Math.max(8, rect.left) + 'px';
+
+  // sort buttons
+  const sortRow = el('div', { class: 'sort-row' });
+  const sortAsc = el('button', { class: sortState[tableId] && sortState[tableId].column === colKey && sortState[tableId].dir === 'asc' ? 'active' : '' }, '↑ A→Z');
+  const sortDesc = el('button', { class: sortState[tableId] && sortState[tableId].column === colKey && sortState[tableId].dir === 'desc' ? 'active' : '' }, '↓ Z→A');
+  sortAsc.addEventListener('click', () => { sortState[tableId] = { column: colKey, dir: 'asc' }; pop.remove(); rerenderTable(tableId); });
+  sortDesc.addEventListener('click', () => { sortState[tableId] = { column: colKey, dir: 'desc' }; pop.remove(); rerenderTable(tableId); });
+  sortRow.appendChild(sortAsc);
+  sortRow.appendChild(sortDesc);
+  pop.appendChild(sortRow);
+
+  pop.appendChild(el('hr'));
+
+  const searchInput = el('input', { type: 'text', class: 'search-input', placeholder: 'Buscar valor...' });
+  pop.appendChild(searchInput);
+
+  const allClearRow = el('div', { class: 'all-clear' });
+  const btnAll = el('button', null, '(Seleccionar todo)');
+  const btnNone = el('button', null, '(Limpiar)');
+  allClearRow.appendChild(btnAll);
+  allClearRow.appendChild(btnNone);
+  pop.appendChild(allClearRow);
+
+  const list = el('div', { class: 'values-list' });
+  pop.appendChild(list);
+
+  // estado local del popover (sin aplicar hasta Aceptar)
+  let working = filt.selectedValues ? new Set(filt.selectedValues) : new Set(values.map(v => v[0]));
+
+  function renderList(searchText){
+    list.innerHTML = '';
+    values.forEach(([val, cnt]) => {
+      if(searchText && !val.toLowerCase().includes(searchText.toLowerCase())) return;
+      const lab = el('label');
+      const cb = el('input', { type: 'checkbox' });
+      cb.checked = working.has(val);
+      cb.addEventListener('change', () => {
+        if(cb.checked) working.add(val); else working.delete(val);
+      });
+      const txt = el('span', null, val);
+      const c = el('span', { class: 'count' }, '(' + cnt + ')');
+      lab.appendChild(cb);
+      lab.appendChild(txt);
+      lab.appendChild(c);
+      list.appendChild(lab);
+    });
+  }
+  renderList('');
+
+  searchInput.addEventListener('input', () => renderList(searchInput.value));
+  btnAll.addEventListener('click', () => { working = new Set(values.map(v => v[0])); renderList(searchInput.value); });
+  btnNone.addEventListener('click', () => { working = new Set(); renderList(searchInput.value); });
+
+  const footer = el('div', { class: 'footer' });
+  const cancel = el('button', null, 'Cancelar');
+  const accept = el('button', { class: 'primary' }, 'Aceptar');
+  cancel.addEventListener('click', () => pop.remove());
+  accept.addEventListener('click', () => {
+    if(working.size === values.length) filt.selectedValues = null;
+    else filt.selectedValues = working;
+    pop.remove();
+    rerenderTable(tableId);
+  });
+  footer.appendChild(cancel);
+  footer.appendChild(accept);
+  pop.appendChild(footer);
+
+  document.body.appendChild(pop);
+
+  // click fuera cierra
+  setTimeout(() => {
+    const closer = (ev) => {
+      if(!pop.contains(ev.target)){
+        pop.remove();
+        document.removeEventListener('click', closer);
+      }
+    };
+    document.addEventListener('click', closer);
+  }, 50);
+}
+
+function rerenderTable(tableId){
+  if(tableId === 'pmp') renderPMP();
+  else renderRegistro();
+}
+
+$('#btn-reset-sort-pmp').addEventListener('click', () => { sortState.pmp = null; renderPMP(); });
+$('#btn-reset-sort-reg').addEventListener('click', () => { sortState.registro = null; renderRegistro(); });
+
+/* Filtros globales: bindings */
+['#fpmp-text','#fpmp-equipo','#fpmp-mes','#fpmp-codigo','#fpmp-estado'].forEach(id => {
+  const node = $(id);
+  if(!node) return;
+  node.addEventListener('input', () => renderPMP());
+  node.addEventListener('change', () => renderPMP());
+});
+['#freg-text','#freg-equipo','#freg-mes'].forEach(id => {
+  const node = $(id);
+  if(!node) return;
+  node.addEventListener('input', () => renderRegistro());
+  node.addEventListener('change', () => renderRegistro());
+});
+
+/* ---------------------------------------------------------------------------
+   MODAL: EDITAR CELDA PMP
+   --------------------------------------------------------------------------- */
+function openCellEdit(inv, mes){
+  const row = findPMPByInv(inv);
+  if(!row) return;
+  state.cellEdit = { inv, mes };
+  $('#mc-equipo').value = `[${row['N° Inventario']}] — ${row['Equipo']}`;
+  $('#mc-mes').value = mes;
+  $('#mc-codigo').value = row[mes] || '';
+  openModal('modal-cell');
+}
+$('#mc-save').addEventListener('click', () => {
+  const { inv, mes } = state.cellEdit || {};
+  if(!inv) return;
+  const pmpRow = findPMPByInv(inv);
+  const regRow = findRegByInv(inv);
+  const code = $('#mc-codigo').value;
+  if(pmpRow) pmpRow[mes] = code;
+  if(regRow) regRow[mes + '_P'] = code;
+  closeModal('modal-cell');
+  renderPMP();
+  renderRegistro();
+  scheduleAutosave();
+  toast('Programación actualizada', 'ok');
+});
+
+/* ---------------------------------------------------------------------------
+   MODAL: REGISTRAR RESULTADO
+   --------------------------------------------------------------------------- */
+function openResultEdit(inv, mes){
+  const reg = findRegByInv(inv);
+  if(!reg) return;
+  state.resultEdit = { inv, mes };
+  $('#mr-equipo').value = `[${inv}] — ${reg['Equipo']}`;
+  $('#mr-mes').value = mes;
+  $('#mr-p').value = reg[mes + '_P'] || '';
+  $('#mr-r').value = reg[mes + '_R'] || '';
+  // mes destino
+  const mIdx = MESES.indexOf(mes);
+  const reprogSel = $('#mr-reprog');
+  reprogSel.innerHTML = '<option value="">— Sin reprogramar aún —</option>';
+  if(mIdx >= 0 && mIdx < 11) reprogSel.appendChild(el('option', { value: MESES[mIdx+1] }, MESES[mIdx+1]));
+  if(mIdx >= 0 && mIdx < 10) reprogSel.appendChild(el('option', { value: MESES[mIdx+2] }, MESES[mIdx+2]));
+  actualizarMRInfo();
+  openModal('modal-result');
+}
+function actualizarMRInfo(){
+  const r = $('#mr-r').value;
+  const row = $('#mr-reprog-row');
+  const info = $('#mr-causal-info');
+  if(CAUSALES_REPROG.includes(r)){
+    row.style.display = '';
+  } else {
+    row.style.display = 'none';
+  }
+  if(CAUSALES_INFO[r]){
+    info.textContent = CAUSALES_INFO[r];
+    info.style.display = '';
+  } else if(r === 'FS'){
+    info.textContent = 'Equipo fuera de servicio. Pasará a estado "Fuera de servicio".';
+    info.style.display = '';
+  } else if(r === 'Baja'){
+    info.textContent = 'Equipo dado de baja. Se limpiará el resto del año en PMP y Registro.';
+    info.style.display = '';
+  } else if(r === 'NU'){
+    info.textContent = 'Equipo no ubicable. Se registra pero no cambia estado del equipo.';
+    info.style.display = '';
+  } else if(r === 'Si' || r === 'Si-RA'){
+    info.textContent = 'Mantención realizada.';
+    info.style.display = '';
+  } else {
+    info.style.display = 'none';
+  }
+}
+$('#mr-r').addEventListener('change', actualizarMRInfo);
+
+$('#mr-save').addEventListener('click', () => {
+  const { inv, mes } = state.resultEdit || {};
+  if(!inv) return;
+  const reg = findRegByInv(inv);
+  const pmp = findPMPByInv(inv);
+  const code = $('#mr-r').value;
+  reg[mes + '_R'] = code;
+  if(CAUSALES_REPROG.includes(code)){
+    const dest = $('#mr-reprog').value;
+    if(dest){
+      reg[dest + '_P'] = 'R';
+      if(pmp) pmp[dest] = 'R';
+    }
+  }
+  if(code === 'Baja'){
+    const mIdx = MESES.indexOf(mes);
+    for(let i = mIdx + 1; i < MESES.length; i++){
+      reg[MESES[i] + '_P'] = '';
+      if(pmp) pmp[MESES[i]] = '';
+    }
+  }
+  closeModal('modal-result');
+  renderPMP();
+  renderRegistro();
+  scheduleAutosave();
+  toast('Resultado registrado', 'ok');
+});
+
+/* ---------------------------------------------------------------------------
+   MODAL: ESTADO DEL EQUIPO
+   --------------------------------------------------------------------------- */
+function openEstadoEdit(inv){
+  const row = findPMPByInv(inv);
+  if(!row) return;
+  state._estadoEditInv = inv;
+  $('#mes-equipo').value = `[${inv}] — ${row['Equipo']}`;
+  const est = getEstadoEquipo(inv);
+  const tag = row._estadoOverride ? ' (override manual)' : ' (auto)';
+  $('#mes-actual').value = est + tag;
+  $('#mes-nuevo').value = est;
+  $('#mes-motivo').value = row._estadoOverrideMotivo || '';
+  openModal('modal-estado');
+}
+$('#mes-save').addEventListener('click', () => {
+  const inv = state._estadoEditInv;
+  if(!inv) return;
+  const row = findPMPByInv(inv);
+  row._estadoOverride = $('#mes-nuevo').value;
+  row._estadoOverrideMotivo = $('#mes-motivo').value || '';
+  row._estadoOverrideFecha = todayISO();
+  closeModal('modal-estado');
+  renderPMP();
+  renderRegistro();
+  scheduleAutosave();
+  toast('Estado actualizado', 'ok');
+});
+$('#mes-quitar').addEventListener('click', () => {
+  const inv = state._estadoEditInv;
+  if(!inv) return;
+  const row = findPMPByInv(inv);
+  delete row._estadoOverride;
+  delete row._estadoOverrideMotivo;
+  delete row._estadoOverrideFecha;
+  closeModal('modal-estado');
+  renderPMP();
+  renderRegistro();
+  scheduleAutosave();
+  toast('Override removido', 'ok');
+});
+
+/* ---------------------------------------------------------------------------
+   PLANTILLA MENSUAL
+   --------------------------------------------------------------------------- */
+function generarPlantilla(){
+  const mes = $('#pl-mes').value;
+  if(!mes){ toast('Selecciona un mes', 'error'); return; }
+  const mIdx = MESES.indexOf(mes);
+  if(mIdx < 0) return;
+
+  // Excluir equipos con FS/Baja/NU en meses anteriores
+  const excluir = new Set();
+  state.registro.forEach(reg => {
+    for(let i = 0; i < mIdx; i++){
+      const v = reg[MESES[i] + '_R'];
+      if(v === 'FS' || v === 'Baja' || v === 'NU'){
+        excluir.add(reg['N° Inventario']);
+        break;
+      }
+    }
+  });
+
+  // Filtrar equipos programados en el mes
+  const data = state.pmp.filter(eq => {
+    const c = eq[mes];
+    if(!['X','R','RA'].includes(c)) return false;
+    if(excluir.has(eq['N° Inventario'])) return false;
+    return true;
+  });
+
+  state._plantillaMes = mes;
+  state._plantillaData = data;
+  renderPlantilla();
+  $('#pl-count').textContent = `${data.length} equipos programados`;
+  toast(`Plantilla generada: ${data.length} equipos para ${mes}`, 'ok');
+}
+
+function renderPlantilla(){
+  const tbl = $('#tbl-pl');
+  tbl.innerHTML = '';
+  const mes = state._plantillaMes;
+  const data = state._plantillaData;
+  if(!mes || !data){
+    return;
+  }
+  const cols = ['N° Carpeta','N° Inventario','Equipo','Servicio','Unidad','Ubicación','Marca','Modelo','Serie','Año','Frecuencia MP','Programado en mes','Responsable'];
+
+  const thead = el('thead');
+  const tr = el('tr');
+  cols.forEach(c => tr.appendChild(el('th', null, c)));
+  thead.appendChild(tr);
+  tbl.appendChild(thead);
+
+  const tbody = el('tbody');
+  const ordenado = ordenarPorFamiliaYRow(data);
+  let currentFam = null;
+
+  if(!state.asignacionesMensuales[mes]) state.asignacionesMensuales[mes] = {};
+
+  ordenado.forEach(eq => {
+    if(eq.family !== currentFam){
+      currentFam = eq.family;
+      const fr = el('tr', { class: 'family-row' });
+      fr.appendChild(el('td', { colspan: cols.length }, currentFam));
+      tbody.appendChild(fr);
+    }
+    const trd = el('tr');
+    trd.appendChild(el('td', null, eq['N° Carpeta'] || ''));
+    trd.appendChild(el('td', null, eq['N° Inventario'] || ''));
+    trd.appendChild(el('td', null, eq['Equipo'] || ''));
+    trd.appendChild(el('td', null, eq['Servicio'] || ''));
+    trd.appendChild(el('td', null, eq['Unidad'] || ''));
+    trd.appendChild(el('td', null, eq['Ubicación'] || ''));
+    trd.appendChild(el('td', null, eq['Marca'] || ''));
+    trd.appendChild(el('td', null, eq['Modelo'] || ''));
+    trd.appendChild(el('td', null, eq['Serie'] || ''));
+    trd.appendChild(el('td', null, eq['Año de Instalación'] || ''));
+    trd.appendChild(el('td', null, eq['Frecuencia MP'] || ''));
+    const codeTd = el('td');
+    const c = eq[mes];
+    codeTd.innerHTML = `<span class="cell-code ${c}">${c}</span>`;
+    trd.appendChild(codeTd);
+
+    const respTd = el('td');
+    const sel = el('select');
+    sel.appendChild(el('option', { value: '' }, '— Asignar —'));
+    RESPONSABLES.forEach(r => sel.appendChild(el('option', { value: r }, r)));
+    const prev = state.asignacionesMensuales[mes][eq['N° Inventario']];
+    if(prev) sel.value = prev;
+    sel.addEventListener('change', () => {
+      state.asignacionesMensuales[mes][eq['N° Inventario']] = sel.value;
+      scheduleAutosave();
+    });
+    respTd.appendChild(sel);
+    trd.appendChild(respTd);
+    tbody.appendChild(trd);
+  });
+  tbl.appendChild(tbody);
+}
+
+$('#btn-generar-pl').addEventListener('click', generarPlantilla);
+$('#btn-descargar-pl').addEventListener('click', () => {
+  const mes = state._plantillaMes;
+  const data = state._plantillaData;
+  if(!mes || !data || data.length === 0){ toast('Genera la plantilla primero', 'error'); return; }
+  const rows = [['N° Carpeta','N° Inventario','Equipo','Servicio','Unidad','Ubicación','Marca','Modelo','Serie','Año','Frecuencia MP','Programado en mes','Responsable']];
+  const ordenado = ordenarPorFamiliaYRow(data);
+  ordenado.forEach(eq => {
+    rows.push([
+      eq['N° Carpeta'] || '', eq['N° Inventario'] || '', eq['Equipo'] || '',
+      eq['Servicio'] || '', eq['Unidad'] || '', eq['Ubicación'] || '',
+      eq['Marca'] || '', eq['Modelo'] || '', eq['Serie'] || '',
+      eq['Año de Instalación'] || '', eq['Frecuencia MP'] || '',
+      eq[mes] || '',
+      (state.asignacionesMensuales[mes] && state.asignacionesMensuales[mes][eq['N° Inventario']]) || ''
+    ]);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:11},{wch:13},{wch:30},{wch:22},{wch:18},{wch:22},{wch:14},{wch:18},{wch:16},{wch:7},{wch:14},{wch:12},{wch:26}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, `Asignacion_${mes}`);
+  XLSX.writeFile(wb, `Plantilla_Asignacion_${mes}_2026.xlsx`);
+  toast('Plantilla descargada', 'ok');
+});
+
+/* ---------------------------------------------------------------------------
+   EVENTOS
+   --------------------------------------------------------------------------- */
+const EVENT_ABREV = {
+  'Mantención Preventiva': 'MP',
+  'Envío a Servicio Técnico': 'ST',
+  'Solicitud de Trabajo': 'SOL',
+  'Recepción': 'REC',
+  'Reparación': 'REP'
+};
+
+function renderEventos(){
+  const list = $('#event-list');
+  list.innerHTML = '';
+  const txt = $('#fe-text').value.trim().toLowerCase();
+  const tipo = $('#fe-tipo').value;
+  const sorted = state.events.slice().sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.id - a.id));
+  const filtered = sorted.filter(e => {
+    if(tipo && e.type !== tipo) return false;
+    if(txt){
+      const blob = [e.type, e.equipInv, e.equipName, e.ejecutor, e.resultado, e.estado, e.empresa, e.folio, e.obs, e.nenvio]
+        .map(v => String(v || '').toLowerCase()).join(' | ');
+      if(!blob.includes(txt)) return false;
+    }
+    return true;
+  });
+  if(filtered.length === 0){
+    list.appendChild(el('div', { class: 'muted', style: 'padding:20px; text-align:center' }, 'No hay eventos registrados.'));
+    return;
+  }
+  filtered.forEach(e => {
+    const card = el('div', { class: 'event-card' });
+    const ab = EVENT_ABREV[e.type] || '?';
+    const parts = [];
+    if(e.equipName) parts.push(e.equipName);
+    if(e.ejecutor) parts.push('Ejec: ' + e.ejecutor);
+    if(e.resultado) parts.push('Res: ' + e.resultado);
+    if(e.estado) parts.push('Estado: ' + e.estado);
+    if(e.empresa) parts.push('Emp: ' + e.empresa);
+    if(e.nenvio) parts.push('N° Envío: ' + e.nenvio);
+    if(e.folio) parts.push('Folio: ' + e.folio);
+    if(e.obs) parts.push(e.obs);
+    card.innerHTML = `
+      <span class="ev-type ${ab}">${ab}</span>
+      <span class="ev-inv">${escapeAttr(e.equipInv || '—')}</span>
+      <span class="ev-desc">${escapeAttr(parts.join(' · '))}</span>
+      <span class="ev-date">${escapeAttr(e.date || '')}</span>
+    `;
+    const del = el('button', { class: 'ev-del', title: 'Eliminar' }, '×');
+    del.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      if(!confirm('¿Eliminar este evento?')) return;
+      state.events = state.events.filter(x => x.id !== e.id);
+      renderEventos();
+      renderPMP();
+      renderRegistro();
+      scheduleAutosave();
+    });
+    card.appendChild(del);
+    card.addEventListener('click', () => openEventoModal(e));
+    list.appendChild(card);
+  });
+}
+
+$('#fe-text').addEventListener('input', renderEventos);
+$('#fe-tipo').addEventListener('change', renderEventos);
+
+function openEventoModal(existing){
+  state.eventEdit = existing ? Object.assign({}, existing) : null;
+  $('#me-title').textContent = existing ? 'Editar evento' : 'Nuevo evento';
+  $('#me-tipo').value = existing ? existing.type : 'Mantención Preventiva';
+  $('#me-equipo').value = existing ? (existing.equipInv || '') : '';
+  $('#me-delete').style.display = existing ? '' : 'none';
+  renderEventoDyn();
+  openModal('modal-evento');
+}
+
+$('#me-tipo').addEventListener('change', renderEventoDyn);
+
+function renderEventoDyn(){
+  const tipo = $('#me-tipo').value;
+  const cur = state.eventEdit || {};
+  const dyn = $('#me-dyn');
+  dyn.innerHTML = '';
+
+  function fld(name, label, type, opts){
+    opts = opts || {};
+    const wrap = el('label');
+    wrap.appendChild(el('span', null, label));
+    let input;
+    if(type === 'select'){
+      input = el('select', { id: 'me-' + name });
+      (opts.options || []).forEach(o => input.appendChild(el('option', { value: o }, o)));
+    } else if(type === 'textarea'){
+      input = el('textarea', { id: 'me-' + name });
+    } else {
+      input = el('input', { type: type, id: 'me-' + name });
+    }
+    if(cur[name] != null) input.value = cur[name];
+    if(opts.placeholder) input.placeholder = opts.placeholder;
+    wrap.appendChild(input);
+    return wrap;
+  }
+  function row(...kids){
+    const r = el('div', { class: 'form-row' });
+    kids.forEach(k => r.appendChild(k));
+    return r;
+  }
+
+  const ejecOpts = [''].concat(RESPONSABLES);
+
+  if(tipo === 'Mantención Preventiva'){
+    dyn.appendChild(row(
+      fld('date', 'Fecha', 'date'),
+      fld('ejecutor', 'Ejecutor', 'select', { options: ejecOpts })
+    ));
+    dyn.appendChild(fld('resultado', 'Resultado', 'select', { options: ['','Si','C1','C2','C3','C4','C5','C6','C7','C8','FS','Baja','NU'] }));
+    dyn.appendChild(fld('estado', 'Estado del equipo', 'select', { options: ['','Operativo','No operativo'] }));
+    dyn.appendChild(fld('obs', 'Observación', 'textarea'));
+  } else if(tipo === 'Envío a Servicio Técnico'){
+    dyn.appendChild(row(fld('date', 'Fecha envío', 'date'), fld('nenvio', 'N° envío', 'text')));
+    dyn.appendChild(row(fld('empresa', 'Empresa', 'text'), fld('ejecutor', 'Ejecutor', 'select', { options: ejecOpts })));
+    dyn.appendChild(row(
+      fld('estado', 'Estado en ST', 'select', { options: ['','En diagnóstico','En reparación','En espera de repuesto','Listo para retiro'] }),
+      fld('folio', 'Folio solicitud', 'text')
+    ));
+    dyn.appendChild(fld('obs', 'Comentario', 'textarea'));
+  } else if(tipo === 'Solicitud de Trabajo'){
+    dyn.appendChild(row(fld('date', 'Fecha solicitud', 'date'), fld('ejecutor', 'Ejecutor asignado', 'select', { options: ejecOpts })));
+    dyn.appendChild(fld('folio', 'Folio solicitud', 'text'));
+    dyn.appendChild(fld('obs', 'Comentario', 'textarea'));
+  } else if(tipo === 'Recepción'){
+    dyn.appendChild(row(fld('date', 'Fecha recepción', 'date'), fld('nenvio', 'N° envío', 'text')));
+    dyn.appendChild(row(fld('folio', 'Folio guía despacho', 'text'), fld('estado', 'Estado', 'select', { options: ['','Operativo','No operativo'] })));
+    dyn.appendChild(fld('obs', 'Observación', 'textarea'));
+  } else if(tipo === 'Reparación'){
+    dyn.appendChild(row(fld('date', 'Fecha', 'date'), fld('ejecutor', 'Ejecutor', 'select', { options: ejecOpts })));
+    dyn.appendChild(fld('estado', 'Estado', 'select', { options: ['','Operativo','No operativo'] }));
+    dyn.appendChild(fld('obs', 'Observación', 'textarea'));
+  }
+}
+
+$('#me-save').addEventListener('click', () => {
+  const tipo = $('#me-tipo').value;
+  const inv = $('#me-equipo').value.trim();
+  const eq = inv ? findPMPByInv(inv) : null;
+  const data = {
+    id: state.eventEdit && state.eventEdit.id ? state.eventEdit.id : Date.now(),
+    type: tipo,
+    equipInv: inv,
+    equipName: eq ? eq['Equipo'] : (state.eventEdit ? state.eventEdit.equipName : '')
+  };
+  ['date','ejecutor','resultado','estado','empresa','nenvio','folio','obs'].forEach(k => {
+    const node = $('#me-' + k);
+    if(node) data[k] = node.value || '';
+  });
+
+  // Reemplaza o agrega
+  if(state.eventEdit && state.eventEdit.id){
+    state.events = state.events.filter(x => x.id !== state.eventEdit.id);
+  }
+  state.events.push(data);
+
+  // Propagar MP → R en registro
+  if(tipo === 'Mantención Preventiva' && data.resultado && data.date && inv){
+    const reg = findRegByInv(inv);
+    if(reg){
+      const m = MESES[new Date(data.date).getMonth()];
+      if(m) reg[m + '_R'] = data.resultado;
+    }
+  }
+
+  closeModal('modal-evento');
+  renderEventos();
+  renderPMP();
+  renderRegistro();
+  scheduleAutosave();
+  toast('Evento guardado', 'ok');
+
+  // Auto-sugerir pendientes
+  if(tipo === 'Mantención Preventiva' && data.resultado === 'Si' && data.estado === 'No operativo'){
+    if(confirm('¿Crear un pendiente de reparación asociado?')){
+      openPendienteModal({
+        titulo: `Reparación tras MP — ${data.equipName || inv}`,
+        tipo: 'Reparación',
+        prio: 'Alta',
+        status: 'Abierto',
+        equipInv: inv,
+        equipName: data.equipName || '',
+        desc: `Resultado MP: Si · Estado: No operativo\nFecha: ${data.date || ''}\nEjecutor: ${data.ejecutor || ''}\n${data.obs || ''}`
+      });
+    }
+  } else if(tipo === 'Envío a Servicio Técnico'){
+    if(confirm('¿Crear un pendiente de seguimiento?')){
+      openPendienteModal({
+        titulo: `ST ${data.empresa || ''} — ${data.equipName || inv}`,
+        tipo: 'Servicio técnico',
+        prio: 'Media',
+        status: 'En espera',
+        equipInv: inv,
+        equipName: data.equipName || '',
+        desc: `N° envío: ${data.nenvio || ''}\nEmpresa: ${data.empresa || ''}\nFolio: ${data.folio || ''}\n${data.obs || ''}`
+      });
+    }
+  }
+});
+
+$('#me-delete').addEventListener('click', () => {
+  if(!state.eventEdit || !state.eventEdit.id) return;
+  if(!confirm('¿Eliminar este evento?')) return;
+  state.events = state.events.filter(x => x.id !== state.eventEdit.id);
+  closeModal('modal-evento');
+  renderEventos();
+  scheduleAutosave();
+});
+
+$('#btnNuevoEvento').addEventListener('click', () => openEventoModal(null));
+
+/* ---------------------------------------------------------------------------
+   PENDIENTES
+   --------------------------------------------------------------------------- */
+function statusKey(s){ return (s || '').replace(/\s/g,'-'); }
+
+function renderPendientes(){
+  const stats = $('#pend-stats');
+  stats.innerHTML = '';
+  const today = todayISO();
+  const abiertos = state.pendientes.filter(p => p.status !== 'Cerrado').length;
+  const vencidos = state.pendientes.filter(p => p.status !== 'Cerrado' && p.due && p.due < today).length;
+  const altas = state.pendientes.filter(p => p.status !== 'Cerrado' && p.prio === 'Alta').length;
+  const cerrados = state.pendientes.filter(p => p.status === 'Cerrado').length;
+  const total = state.pendientes.length;
+  [
+    ['Abiertos', abiertos, 'info'],
+    ['Vencidos', vencidos, 'danger'],
+    ['Prioridad alta', altas, 'warn'],
+    ['Cerrados', cerrados, 'ok'],
+    ['Total', total, '']
+  ].forEach(([lbl, val, cls]) => {
+    const c = el('div', { class: 'stat-card ' + cls });
+    c.appendChild(el('div', { class: 'lbl' }, lbl));
+    c.appendChild(el('div', { class: 'val' }, String(val)));
+    stats.appendChild(c);
+  });
+
+  // Tabla
+  const tbl = $('#tbl-pend');
+  tbl.innerHTML = '';
+  const thead = el('thead');
+  const trH = el('tr');
+  ['Prio.','Estado','Tipo','Título / Equipo','Responsable','Creado','Límite','Acciones','Adj.'].forEach(h => trH.appendChild(el('th', null, h)));
+  thead.appendChild(trH);
+  tbl.appendChild(thead);
+
+  const txt = $('#fp-text').value.trim().toLowerCase();
+  const fEst = $('#fp-estado').value;
+  const fTipo = $('#fp-tipo').value;
+  const fPrio = $('#fp-prio').value;
+  const fResp = $('#fp-resp').value;
+  const sortBy = $('#fp-sort').value;
+
+  let rows = state.pendientes.slice().filter(p => {
+    if(fEst && p.status !== fEst) return false;
+    if(fTipo && p.tipo !== fTipo) return false;
+    if(fPrio && p.prio !== fPrio) return false;
+    if(fResp){
+      if(fResp === '__sa__'){ if(p.resp) return false; }
+      else if(p.resp !== fResp) return false;
+    }
+    if(txt){
+      const blob = [p.titulo, p.equipName, p.equipInv, p.resp, p.desc, p.tipo].map(v => String(v || '').toLowerCase()).join(' | ');
+      if(!blob.includes(txt)) return false;
+    }
+    return true;
+  });
+
+  const prioRank = { 'Alta': 0, 'Media': 1, 'Baja': 2 };
+  rows.sort((a, b) => {
+    const ac = a.status === 'Cerrado' ? 1 : 0;
+    const bc = b.status === 'Cerrado' ? 1 : 0;
+    if(fEst !== 'Cerrado' && ac !== bc) return ac - bc;
+    if(sortBy === 'prio') return (prioRank[a.prio] ?? 3) - (prioRank[b.prio] ?? 3);
+    if(sortBy === 'due') return (a.due || 'z').localeCompare(b.due || 'z');
+    if(sortBy === 'created') return (b.created || '').localeCompare(a.created || '');
+    if(sortBy === 'equip') return (a.equipName || '').localeCompare(b.equipName || '', 'es');
+    return 0;
+  });
+
+  const tbody = el('tbody');
+  rows.forEach(p => {
+    const tr = el('tr', { class: 'pend-row' });
+    tr.addEventListener('click', () => openPendienteModal(p));
+    tr.innerHTML = `
+      <td><span class="badge prio-${escapeAttr(p.prio || 'Media')}">${escapeAttr(p.prio || 'Media')}</span></td>
+      <td><span class="badge st-${escapeAttr(statusKey(p.status))}">${escapeAttr(p.status || '')}</span></td>
+      <td><span class="badge t-tipo">${escapeAttr(p.tipo || '')}</span></td>
+      <td><div class="pend-title">${escapeAttr(p.titulo || '')}</div>${p.equipInv ? `<div class="pend-equip">[${escapeAttr(p.equipInv)}] · ${escapeAttr(p.equipName || '')}</div>` : ''}</td>
+      <td>${escapeAttr(p.resp || '—')}</td>
+      <td>${escapeAttr(p.created || '')}</td>
+      <td>${dueCell(p)}</td>
+      <td>${(p.actions || []).length}</td>
+      <td>${(p.attachments || []).length ? '📎 ' + p.attachments.length : ''}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+}
+
+function dueCell(p){
+  if(!p.due) return '<span class="fecha-ok">—</span>';
+  const today = todayISO();
+  if(p.status === 'Cerrado') return `<span class="fecha-ok">${escapeAttr(p.due)}</span>`;
+  if(p.due < today) return `<span class="fecha-vencida">${escapeAttr(p.due)} ⚠</span>`;
+  const diff = Math.round((new Date(p.due) - new Date(today)) / 86400000);
+  if(diff <= 7) return `<span class="fecha-pronto">${escapeAttr(p.due)} (${diff}d)</span>`;
+  return `<span class="fecha-ok">${escapeAttr(p.due)}</span>`;
+}
+
+['#fp-text','#fp-estado','#fp-tipo','#fp-prio','#fp-resp','#fp-sort'].forEach(id => {
+  const n = $(id);
+  if(!n) return;
+  n.addEventListener('input', renderPendientes);
+  n.addEventListener('change', renderPendientes);
+});
+
+function openPendienteModal(existingOrPrefill){
+  let editing = null;
+  let prefill = {};
+  if(existingOrPrefill && existingOrPrefill.id){
+    editing = existingOrPrefill;
+  } else if(existingOrPrefill){
+    prefill = existingOrPrefill;
+  }
+  state.pendEdit = editing ? Object.assign({}, editing) : null;
+  $('#mp-title').textContent = editing ? 'Editar pendiente' : 'Nuevo pendiente';
+  $('#mp-delete').style.display = editing ? '' : 'none';
+  const p = editing || prefill;
+  $('#mp-titulo').value = p.titulo || '';
+  $('#mp-tipo').value = p.tipo || 'Reparación';
+  $('#mp-prio').value = p.prio || 'Media';
+  $('#mp-equipo').value = p.equipInv || '';
+  $('#mp-resp').value = p.resp || '';
+  $('#mp-due').value = p.due || '';
+  $('#mp-estado').value = p.status || 'Abierto';
+  $('#mp-created').value = p.created || todayISO();
+  $('#mp-desc').value = p.desc || '';
+
+  // Timeline + attachments
+  state.pendEdit = state.pendEdit || {};
+  state.pendEdit.actions = (p.actions || []).slice();
+  state.pendEdit.attachments = (p.attachments || []).slice();
+  if(editing) state.pendEdit.id = editing.id;
+  renderTimelinePend();
+  renderAttachPend();
+  openModal('modal-pend');
+}
+
+function renderTimelinePend(){
+  const tl = $('#mp-timeline');
+  tl.innerHTML = '';
+  const acts = (state.pendEdit && state.pendEdit.actions) || [];
+  if(acts.length === 0){
+    tl.appendChild(el('div', { class: 'muted', style: 'font-size:11px; padding:6px' }, 'Sin acciones registradas.'));
+    return;
+  }
+  acts.forEach((a, idx) => {
+    const it = el('div', { class: 'timeline-item' });
+    it.appendChild(el('div', { class: 'ti-date' }, a.date));
+    it.appendChild(el('div', { class: 'ti-author' }, a.author || ''));
+    it.appendChild(el('div', { class: 'ti-text' }, a.text || ''));
+    const del = el('button', { class: 'ti-del', title: 'Borrar' }, '×');
+    del.addEventListener('click', () => {
+      state.pendEdit.actions.splice(idx, 1);
+      renderTimelinePend();
+    });
+    it.appendChild(del);
+    tl.appendChild(it);
+  });
+}
+
+$('#mp-action-add').addEventListener('click', () => {
+  const txt = $('#mp-action-text').value.trim();
+  const author = $('#mp-action-author').value;
+  if(!txt){ return; }
+  state.pendEdit.actions.unshift({ date: todayISO(), author, text: txt });
+  $('#mp-action-text').value = '';
+  renderTimelinePend();
+});
+$('#mp-action-text').addEventListener('keydown', (ev) => {
+  if(ev.key === 'Enter'){ ev.preventDefault(); $('#mp-action-add').click(); }
+});
+
+function renderAttachPend(){
+  const list = $('#mp-attach-list');
+  list.innerHTML = '';
+  const atts = (state.pendEdit && state.pendEdit.attachments) || [];
+  atts.forEach((a, idx) => {
+    const it = el('div', { class: 'attach-item' });
+    const link = el('a', { class: 'a-name', href: a.data, download: a.name }, '📄 ' + a.name);
+    it.appendChild(link);
+    it.appendChild(el('span', { class: 'a-size' }, fmtSize(a.size)));
+    const del = el('button', { class: 'a-del', title: 'Borrar' }, '×');
+    del.addEventListener('click', () => {
+      state.pendEdit.attachments.splice(idx, 1);
+      renderAttachPend();
+    });
+    it.appendChild(del);
+    list.appendChild(it);
+  });
+}
+
+$('#mp-attach-area').addEventListener('click', () => $('#mp-attach-input').click());
+$('#mp-attach-input').addEventListener('change', async (ev) => {
+  const files = Array.from(ev.target.files || []);
+  for(const f of files){
+    if(f.size > 5 * 1024 * 1024){
+      toast(`Archivo "${f.name}" excede 5MB`, 'error');
+      continue;
+    }
+    const data = await new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onload = () => res(fr.result);
+      fr.onerror = rej;
+      fr.readAsDataURL(f);
+    });
+    state.pendEdit.attachments.push({ name: f.name, size: f.size, type: f.type, data });
+  }
+  ev.target.value = '';
+  renderAttachPend();
+});
+
+$('#mp-save').addEventListener('click', () => {
+  const titulo = $('#mp-titulo').value.trim();
+  if(!titulo){ toast('Falta título', 'error'); return; }
+  const inv = $('#mp-equipo').value.trim();
+  const eq = inv ? findPMPByInv(inv) : null;
+  const data = {
+    id: state.pendEdit && state.pendEdit.id ? state.pendEdit.id : Date.now(),
+    titulo,
+    tipo: $('#mp-tipo').value,
+    prio: $('#mp-prio').value,
+    equipInv: inv,
+    equipName: eq ? eq['Equipo'] : (state.pendEdit ? state.pendEdit.equipName : ''),
+    resp: $('#mp-resp').value,
+    due: $('#mp-due').value,
+    status: $('#mp-estado').value,
+    created: $('#mp-created').value || todayISO(),
+    desc: $('#mp-desc').value,
+    actions: state.pendEdit.actions || [],
+    attachments: state.pendEdit.attachments || []
+  };
+  if(state.pendEdit && state.pendEdit.id){
+    state.pendientes = state.pendientes.filter(x => x.id !== state.pendEdit.id);
+  }
+  state.pendientes.push(data);
+  closeModal('modal-pend');
+  renderPendientes();
+  scheduleAutosave();
+  toast('Pendiente guardado', 'ok');
+});
+
+$('#mp-delete').addEventListener('click', () => {
+  if(!state.pendEdit || !state.pendEdit.id) return;
+  if(!confirm('¿Eliminar este pendiente?')) return;
+  state.pendientes = state.pendientes.filter(x => x.id !== state.pendEdit.id);
+  closeModal('modal-pend');
+  renderPendientes();
+  scheduleAutosave();
+});
+
+$('#btnNuevoPendiente').addEventListener('click', () => openPendienteModal(null));
+
+/* ---------------------------------------------------------------------------
+   EXPORT XLSX
+   --------------------------------------------------------------------------- */
+function exportXLSX(){
+  if(state.pmp.length === 0){ toast('Carga primero un archivo', 'error'); return; }
+  const wb = XLSX.utils.book_new();
+
+  // PMP_2026
+  const pmpCols = ['ID'].concat(COL_BASE.filter(c => c !== 'ID')).concat(MESES).concat(['Estado actual','Override manual']);
+  const pmpRows = [pmpCols];
+  const sorted = ordenarPorFamiliaYRow(state.pmp);
+  let currentFam = null;
+  sorted.forEach(eq => {
+    if(eq.family !== currentFam){
+      currentFam = eq.family;
+      const sep = new Array(pmpCols.length).fill('');
+      sep[0] = currentFam;
+      pmpRows.push(sep);
+    }
+    const r = pmpCols.map(c => {
+      if(c === 'Estado actual') return getEstadoEquipo(eq['N° Inventario']);
+      if(c === 'Override manual') return eq._estadoOverride ? `Sí (${eq._estadoOverrideFecha || ''})` : '';
+      if(MESES.includes(c)) return eq[c] || '';
+      return eq[c] || '';
+    });
+    pmpRows.push(r);
+  });
+  const wsPMP = XLSX.utils.aoa_to_sheet(pmpRows);
+  XLSX.utils.book_append_sheet(wb, wsPMP, 'PMP_2026');
+
+  // Registro_MP-2026 con merges
+  const regBase = ['ID'].concat(COL_BASE.filter(c => c !== 'ID'));
+  const headerRow1 = regBase.slice();
+  MESES.forEach(m => { headerRow1.push(m); headerRow1.push(''); });
+  const headerRow2 = regBase.map(() => '');
+  MESES.forEach(() => { headerRow2.push('P'); headerRow2.push('R'); });
+  const regRows = [headerRow1, headerRow2];
+  const regSorted = ordenarPorFamiliaYRow(state.registro);
+  let curFam2 = null;
+  regSorted.forEach(eq => {
+    if(eq.family !== curFam2){
+      curFam2 = eq.family;
+      const sep = new Array(headerRow1.length).fill('');
+      sep[0] = curFam2;
+      regRows.push(sep);
+    }
+    const r = regBase.map(c => eq[c] || '');
+    MESES.forEach(m => { r.push(eq[m + '_P'] || ''); r.push(eq[m + '_R'] || ''); });
+    regRows.push(r);
+  });
+  const wsReg = XLSX.utils.aoa_to_sheet(regRows);
+  const merges = [];
+  const baseLen = regBase.length;
+  MESES.forEach((m, i) => {
+    merges.push({ s: { r: 0, c: baseLen + i*2 }, e: { r: 0, c: baseLen + i*2 + 1 } });
+  });
+  wsReg['!merges'] = merges;
+  XLSX.utils.book_append_sheet(wb, wsReg, 'Registro_MP-2026');
+
+  // Eventos
+  if(state.events.length > 0){
+    const ev = [['Fecha','Tipo','N° Inventario','Equipo','Ejecutor','Resultado','Estado','N° Envío','Empresa','Folio','Observación']];
+    state.events.slice().sort((a,b) => (a.date||'').localeCompare(b.date||'')).forEach(e => {
+      ev.push([e.date||'',e.type||'',e.equipInv||'',e.equipName||'',e.ejecutor||'',e.resultado||'',e.estado||'',e.nenvio||'',e.empresa||'',e.folio||'',e.obs||'']);
+    });
+    const wsE = XLSX.utils.aoa_to_sheet(ev);
+    XLSX.utils.book_append_sheet(wb, wsE, 'Eventos');
+  }
+
+  // Pendientes
+  if(state.pendientes.length > 0){
+    const pp = [['ID','Estado','Prioridad','Tipo','Título','N° Inventario','Equipo','Responsable','Fecha creación','Fecha límite','Descripción','N° acciones','N° adjuntos','Último avance']];
+    state.pendientes.forEach(p => {
+      const ultimo = (p.actions && p.actions.length) ? `${p.actions[0].date} · ${p.actions[0].author || ''}: ${p.actions[0].text || ''}` : '';
+      pp.push([
+        p.id, p.status||'', p.prio||'', p.tipo||'', p.titulo||'', p.equipInv||'', p.equipName||'',
+        p.resp||'', p.created||'', p.due||'', p.desc||'',
+        (p.actions||[]).length, (p.attachments||[]).length, ultimo
+      ]);
+    });
+    const wsP = XLSX.utils.aoa_to_sheet(pp);
+    wsP['!cols'] = [{wch:14},{wch:11},{wch:9},{wch:18},{wch:36},{wch:13},{wch:26},{wch:24},{wch:12},{wch:12},{wch:40},{wch:8},{wch:8},{wch:50}];
+    XLSX.utils.book_append_sheet(wb, wsP, 'Pendientes');
+
+    // Acciones planas
+    const anyActions = state.pendientes.some(p => (p.actions || []).length > 0);
+    if(anyActions){
+      const ac = [['Pendiente ID','Título','Equipo','Fecha acción','Autor','Acción']];
+      state.pendientes.forEach(p => {
+        (p.actions || []).forEach(a => {
+          ac.push([p.id, p.titulo || '', p.equipName || '', a.date || '', a.author || '', a.text || '']);
+        });
+      });
+      const wsA = XLSX.utils.aoa_to_sheet(ac);
+      wsA['!cols'] = [{wch:14},{wch:36},{wch:26},{wch:12},{wch:24},{wch:60}];
+      XLSX.utils.book_append_sheet(wb, wsA, 'Pendientes_Acciones');
+    }
+  }
+
+  const base = state.fileName ? state.fileName.replace(/\.(xlsm|xlsx)$/i, '') : 'ProgramacionMP_2026';
+  XLSX.writeFile(wb, base + '_export.xlsx');
+  toast('Archivo exportado', 'ok');
+}
+
+$('#btnExportar').addEventListener('click', exportXLSX);
+
+/* ---------------------------------------------------------------------------
+   PERSISTENCIA
+   --------------------------------------------------------------------------- */
+const AUTOSAVE_KEY = 'sgmp2026_autosave';
+
+function snapshot(){
+  return {
+    version: 1,
+    savedAt: new Date().toISOString(),
+    fileName: state.fileName,
+    pmp: state.pmp,
+    registro: state.registro,
+    events: state.events,
+    pendientes: state.pendientes,
+    asignacionesMensuales: state.asignacionesMensuales
+  };
+}
+
+function applySnapshot(s){
+  state.fileName = s.fileName || null;
+  state.pmp = s.pmp || [];
+  state.registro = s.registro || [];
+  state.events = s.events || [];
+  state.pendientes = s.pendientes || [];
+  state.asignacionesMensuales = s.asignacionesMensuales || {};
+  excelFilters.pmp = {};
+  excelFilters.registro = {};
+  sortState.pmp = null;
+  sortState.registro = null;
+  populateSelectors();
+  renderAll();
+  $('#status').textContent = state.fileName ? `${state.fileName} · ${state.pmp.length} equipos` : `Sesión restaurada · ${state.pmp.length} equipos`;
+}
+
+let _autosaveTimer = null;
+function scheduleAutosave(){
+  clearTimeout(_autosaveTimer);
+  _autosaveTimer = setTimeout(doAutosave, 1500);
+}
+function doAutosave(){
+  try {
+    localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(snapshot()));
+  } catch(err){
+    console.warn('Autosave falló:', err.message);
+  }
+}
+
+function tryRestoreAutosave(){
+  let raw;
+  try { raw = localStorage.getItem(AUTOSAVE_KEY); } catch(e){ return; }
+  if(!raw) return;
+  let s;
+  try { s = JSON.parse(raw); } catch(e){ return; }
+  if(!s || !s.pmp || s.pmp.length === 0) return;
+  const when = s.savedAt ? new Date(s.savedAt).toLocaleString('es-CL') : '?';
+  const np = s.pendientes ? s.pendientes.length : 0;
+  const ne = s.events ? s.events.length : 0;
+  if(confirm(`Hay una sesión autoguardada del ${when}\n· ${s.pmp.length} equipos · ${np} pendientes · ${ne} eventos\n\n¿Restaurar?`)){
+    applySnapshot(s);
+    toast('Sesión restaurada', 'ok');
+  }
+}
+
+$('#btnGuardarSesion').addEventListener('click', () => {
+  if(state.pmp.length === 0){ toast('Nada que guardar', 'error'); return; }
+  const data = JSON.stringify(snapshot(), null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `SGMP_sesion_${todayISO()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 100);
+  toast('Sesión descargada', 'ok');
+});
+
+$('#btnCargarSesion').addEventListener('click', () => $('#sessionInput').click());
+$('#sessionInput').addEventListener('change', async (ev) => {
+  const f = ev.target.files && ev.target.files[0];
+  if(!f) return;
+  if(state.pmp.length > 0 && !confirm('Reemplazará los datos actuales. ¿Continuar?')){
+    ev.target.value = '';
+    return;
+  }
+  try {
+    const text = await f.text();
+    const s = JSON.parse(text);
+    applySnapshot(s);
+    scheduleAutosave();
+    toast('Sesión cargada', 'ok');
+  } catch(err){
+    toast('Error cargando sesión: ' + err.message, 'error');
+  }
+  ev.target.value = '';
+});
+
+$('#btnCargar').addEventListener('click', () => $('#fileInput').click());
+$('#fileInput').addEventListener('change', async (ev) => {
+  const f = ev.target.files && ev.target.files[0];
+  if(!f) return;
+  await cargarArchivoXLSM(f);
+  ev.target.value = '';
+});
+
+/* ---------------------------------------------------------------------------
+   RENDER ALL
+   --------------------------------------------------------------------------- */
+function renderAll(){
+  renderPMP();
+  renderRegistro();
+  renderPlantilla();
+  renderPendientes();
+  renderEventos();
+}
+
+/* ---------------------------------------------------------------------------
+   INIT
+   --------------------------------------------------------------------------- */
+populateSelectors();
+renderAll();
+tryRestoreAutosave();
+
+</script>
+</body>
+</html>
